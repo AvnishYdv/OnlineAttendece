@@ -1,35 +1,14 @@
-﻿@*@model IEnumerable<OnlineAttendece.Models.Attendence>
+﻿@model IEnumerable<OnlineAttendece.Models.Attendence>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Chart";
 }
 
 <h2 class="text-center m-2">Attendence Report</h2>
 
 @if (Model != null && Model.Any())
 {
-    <table class="table mt-4">
-        <tr class="trreport">
-            <th>@Html.DisplayNameFor(model => model.Attendence_Id)</th>
-            <th>@Html.DisplayNameFor(model => model.Attendence_Date)</th>
-            <th>@Html.DisplayNameFor(model => model.Cheack_In_Time)</th>
-            <th>@Html.DisplayNameFor(model => model.Cheack_Out_Time)</th>
-            <th>@Html.DisplayNameFor(model => model.EMP_Id)</th>
-        </tr>
-        @{ int i = 1;}
-
-        @foreach (var item in Model)
-        {
-            <tr class="trreport1">
-                <td>@i</td>
-                <td>@Html.DisplayFor(modelItem => item.Attendence_Date)</td>
-                <td>@Html.DisplayFor(modelItem => item.Cheack_In_Time)</td>
-                <td>@Html.DisplayFor(modelItem => item.Cheack_Out_Time)</td>
-                <td>@Html.DisplayFor(modelItem => item.EMP_Name)</td>
-            </tr>
-            i++;
-        }
-    </table>
+   
 
     <div>
         <canvas id="attendanceChart" width="800" height="400"></canvas>
@@ -85,10 +64,12 @@
                     }
                 });
             }
+
+
         </script>
     }
 }
 else
 {
     <p>No attendance data available.</p>
-}*@
+}

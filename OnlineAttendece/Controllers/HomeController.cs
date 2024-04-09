@@ -12,12 +12,42 @@ namespace OnlineAttendece.Controllers
 
     public class HomeController : Controller
     {
-        Office_AttendanceEntities db = new Office_AttendanceEntities();
+        readonly Office_AttendanceEntities db = new Office_AttendanceEntities();
         public ActionResult Index()
         {
-
-            return View();
+            List<Attendence> AttreoList = new List<Attendence>();
+            // Retrieve attendance data from your data source
+            var attendanceData = db.Attendence_Master.ToList(); // Assuming Attendence_Master is the correct model
+            foreach(var  AttLoop in attendanceData)
+            {
+                AttreoList.Add(new Attendence
+                {
+                     Attendence_Id = AttLoop.Attendence_Id,
+                     Attendence_Date = (DateTime)AttLoop.Attendence_Date,
+                     Cheack_In_Time = (TimeSpan)AttLoop.Cheack_In_Time,
+                     Cheack_Out_Time = (TimeSpan)AttLoop.Cheack_In_Time
+                });
+            }
+            return View(AttreoList);
         }
+        public ActionResult Chart()
+        {
+            List<Attendence> AttreoList = new List<Attendence>();
+            // Retrieve attendance data from your data source
+            var attendanceData = db.Attendence_Master.ToList(); // Assuming Attendence_Master is the correct model
+            foreach (var AttLoop in attendanceData)
+            {
+                AttreoList.Add(new Attendence
+                {
+                    Attendence_Id = AttLoop.Attendence_Id,
+                    Attendence_Date = (DateTime)AttLoop.Attendence_Date,
+                    Cheack_In_Time = (TimeSpan)AttLoop.Cheack_In_Time,
+                    Cheack_Out_Time = (TimeSpan)AttLoop.Cheack_In_Time
+                });
+            }
+            return View(AttreoList);
+        }
+
         [HttpGet]
         public ActionResult Employee()
         {
