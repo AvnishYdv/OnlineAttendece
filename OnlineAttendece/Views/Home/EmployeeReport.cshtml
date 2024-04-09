@@ -1,0 +1,43 @@
+﻿@model IEnumerable<OnlineAttendece.Models.Employee>
+
+@{
+    ViewBag.Title = "Employee Report";
+}
+<style>
+    .trreport, th {
+        border: 2px solid #434a54;
+        text-align: center;
+        background: #434a54;
+        color: antiquewhite;
+    }
+
+    .trreport1, td {
+        border: 1px solid orange;
+        text-align: center;
+    }
+</style>
+<h2  class="text-center m-2">Employee Report</h2>
+
+<table class="table mt-4">
+    <tr class="trreport">
+        <th> Sr. No.</th>
+        <th>EMP Name</th>
+        <th>Designation</th>
+        <th>Department</th>
+        <th>Office Id</th>
+    </tr>
+    @{int i = 1; }
+    @foreach (var item in Model)
+    {
+        <tr class="trreport1">
+            <td>@i</td>
+            <td>@Html.DisplayFor(modelItem => item.EMP_Name)</td>
+            <td>@Html.DisplayFor(modelItem => item.Designation)</td>
+            <td>@Html.DisplayFor(modelItem => item.Department)</td>
+            <td>@Html.DisplayFor(modelItem => item.Office_Name)</td>
+
+        </tr>
+        i++;
+    }
+
+</table>

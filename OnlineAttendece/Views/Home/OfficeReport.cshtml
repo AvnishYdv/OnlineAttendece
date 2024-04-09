@@ -1,0 +1,39 @@
+﻿@model IEnumerable<OnlineAttendece.Models.Office>
+
+@{
+    ViewBag.Title = "OfficeReport";
+}
+<style>
+    .trreport, th {
+        border: 2px solid #434a54;
+        text-align: center;
+        background: #434a54;
+        color: antiquewhite;
+    }
+
+    .trreport1, td {
+        border: 1px solid orange;
+        text-align: center;
+    }
+</style>
+<h2 class="text-center m-2">Office Report</h2>
+
+<table class="table mt-4">
+    <tr class="trreport">
+        <th>Sr. No.</th>
+        <th>Office Name</th>
+        <th>Location</th>
+        <th>Cantact Info</th>
+    </tr>
+    @{int i = 1; } 
+@foreach (var item in Model) {
+    <tr class="trreport1">
+        <td>@i</td>
+        <td>@Html.DisplayFor(modelItem => item.Office_Name)</td>
+        <td>@Html.DisplayFor(modelItem => item.Location)</td>
+        <td>@Html.DisplayFor(modelItem => item.Cantact_Info)</td>
+    </tr>
+    i++;
+}
+
+</table>

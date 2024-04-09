@@ -1,0 +1,38 @@
+﻿@model IEnumerable<OnlineAttendece.Models.Holiday>
+
+@{
+    ViewBag.Title = "HolidayReport";
+}
+
+<style>
+    .trreport, th {
+        border: 2px solid #434a54;
+        text-align: center;
+        background: #434a54;
+        color: antiquewhite;
+    }
+
+    .trreport1, td {
+        border: 1px solid orange;
+        text-align: center;
+    }
+</style>
+<h2 class="text-center m-2">Holiday Report</h2>
+
+<table class="table mt-4" id="view2Table">
+    <tr class="trreport">
+        <th >Sr. No.</th>
+        <th>Holiday Name</th>
+        <th>Holiday Date</th>
+    </tr>
+    @{ int i = 1;}
+@foreach (var item in Model) {
+    <tr class="trreport1">
+        <td>@i</td>
+        <td>@Html.DisplayFor(modelItem => item.Holiday_Name)</td>
+        <td class="Holiday_Date">@Html.DisplayFor(modelItem => item.Holiday_Date)</td>
+    </tr>
+    i++;
+}
+
+</table>

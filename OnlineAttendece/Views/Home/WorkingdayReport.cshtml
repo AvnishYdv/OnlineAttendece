@@ -1,0 +1,54 @@
+﻿@model IEnumerable<OnlineAttendece.Models.WorkingDay>
+
+
+@{
+    ViewBag.Title = "WorkingdayReport";
+}
+<style>
+    .trreport, th {
+        border: 2px solid #434a54;
+        text-align: center;
+        background: #434a54;
+        color: antiquewhite;
+    }
+
+    .trreport1, td {
+        border: 1px solid orange;
+        text-align: center;
+    }
+</style>
+
+<h2 class="text-center m-2">Workingday Report</h2>
+<table class="table mt-4" id="view1Table">
+    <tr class="trreport">
+        <th>Sr. No.</th>
+        <th>Day Of Week</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+    </tr>
+
+    @{int i = 1; }
+    @foreach (var item in Model)
+    {
+        if (@item.Holidaymatch == true)
+        {
+            <tr class="trreport1" style="background-color:red; color:black;">
+                <td>@i</td>
+                <td>@Html.DisplayFor(modelItem => item.Day_Of_Week)</td>
+                <td>@Html.DisplayFor(modelItem => item.Start_Time)</td>
+                <td>@Html.DisplayFor(modelItem => item.End_Time)</td>
+            </tr>
+        }
+        else
+        {
+            <tr class="trreport1">
+                <td>@i</td>
+                <td>@Html.DisplayFor(modelItem => item.Day_Of_Week)</td>
+                <td>@Html.DisplayFor(modelItem => item.Start_Time)</td>
+                <td>@Html.DisplayFor(modelItem => item.End_Time)</td>
+            </tr>
+        }
+        i++;
+    }
+
+</table>

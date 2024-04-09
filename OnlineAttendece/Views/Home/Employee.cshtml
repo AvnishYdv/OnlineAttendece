@@ -1,0 +1,91 @@
+﻿
+@{
+    ViewBag.Title = "Employee";
+}
+<style>
+    .tremp, th {
+        border: 2px solid blue;
+    }
+
+    .trbody, td {
+        border: 1px solid blue;
+    }
+</style>
+
+<div class="row justify-content-center mt-1">
+    <h2 class="text-center">Employee Master</h2>
+    <div class="col-md-8 mt-4">
+        <form action="/Home/EmployeeAdd" method="post">
+            <div class="form-group row">
+                <div class="col-sm-6 form-group" style="display: none;">
+                    <label asp-for="EMP_Id">EMP Id:</label>
+                    <input asp-for="EMP_Id" class="form-control" id="EMP_Id" name="EMP_Id" />
+                </div>
+                <div class="col-sm-6 form-group">
+                    <label asp-for="EMP_Name">Employee Name:</label>
+                    <input asp-for="EMP_Name" class="form-control" id="EMP_Name" name="EMP_Name" placeholder="Enter Employee Name" />
+                </div>
+                <div class="col-sm-6 form-group">
+                    <label asp-for="Designation">Designation :</label>
+                    <input asp-for="Designation" class="form-control" name="Designation" placeholder="Enter Employee Designation " />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <label asp-for="Department">Department Info:</label>
+                    <input asp-for="Department" class="form-control" name="Department" placeholder="Enter Department Information" />
+                </div>
+                <div class="col-sm-6">
+                    <label>Select Office Id :</label>
+                    <select name="Office_Id" Id="Office_Id" class=" form-control dropdown-item-text" style="border:.5px solid blue">
+                        <option>Select</option>
+                    </select>
+                </div>
+            </div>
+            <div class="text-center p-2">
+                <button type="submit" class="btn btn-primary">Add Employee</button>
+            </div>
+        </form>
+    </div>
+</div>
+<h2 class="text-center m-4">Employee List</h2>
+<table class="table">
+    <tr class="text-center tremp">
+        <th>EMP Id</th>
+        <th>EMP_Name</th>
+        <th>Designation</th>
+        <th>Department</th>
+        <th>Office Id</th>
+        <th>Action</th>
+    </tr>
+
+    @foreach (var EMPList in Model)
+    {
+        <tr class="text-center trbody">
+            <td>@EMPList.EMP_Id</td>
+            <td>@EMPList.EMP_Name</td>
+            <td>@EMPList.Designation</td>
+            <td>@EMPList.Department</td>
+            <td>@EMPList.Office_Name</td>
+            <td>
+                <a href="@Url.Action("Edit", "Home", new { id = EMPList.EMP_Id })"><i class="bi bi-pencil-square"></i></a> |
+                <a href="@Url.Action("Delete", "Home", new { id = EMPList.EMP_Id })"><i class="bi bi-trash3-fill"></i></a>
+            </td>
+        </tr>
+    }
+
+</table>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $.get("/Home/OfficeList", function (data) {
+            //alert(data);
+            var dropdownList = $("#Office_Id");
+            dropdownList.empty();
+            $.each(data, function (index, item) {
+                dropdownList.append($('<option></option>').val(item.Office_Id).text(item.Office_Name));
+            });
+        });
+    });
+</script>
