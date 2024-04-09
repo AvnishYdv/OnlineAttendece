@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Attendence Softwear</title>
+    <title>@ViewBag.Title Attendence Softwear</title>
     <!-- base:css -->
     <link rel="stylesheet" href="~/Content/vendors/typicons.font/font/typicons.css">
     <link rel="stylesheet" href="~/Content/vendors/css/vendor.bundle.base.css">
@@ -31,7 +31,7 @@
         <!-- partial:partials/_navbar.html -->
         <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-                <a class="navbar-brand brand-logo" href="@Url.Action("Index", "Home")"><img src="~/Content/images/logo.svg" alt="logo" /></a>
+                <a class="navbar-brand brand-logo" href="@Url.Action("Index", "Home")"><img src="~/Content/IMG/logo.svg" alt="logo" style="width:150px;"/></a>
                 <a class="navbar-brand brand-logo-mini" href="@Url.Action("Index", "Home")"><img src="~/Content/images/logo-mini.svg" alt="logo" /></a>
                 <button class="navbar-toggler navbar-toggler align-self-center d-none d-lg-flex" type="button" data-toggle="minimize">
                     <span class="typcn typcn-th-menu"></span>
@@ -195,7 +195,7 @@
                         </a>
                         <div class="collapse" id="charts">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="pages/charts/chartjs.html">ChartJs</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("Chart","Home")">Attendance Chart</a></li>
                             </ul>
                         </div>
                     </li>
@@ -255,14 +255,12 @@
                             <span class="menu-title">Documentation</span>
                         </a>
                     </li>
-                </ul>
-                <ul class="sidebar-legend">
-                    <li>
-                        <p class="sidebar-menu-title">Category</p>
-                    </li>
-                    <li class="nav-item"><a href="#" class="nav-link">#Sales</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link">#Marketing</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link">#Growth</a></li>
+                    @*<li class="nav-item">
+                        <a class="nav-link" href="pages/documentation/documentation.html">
+                            <i class="typcn typcn-document-text menu-icon"></i>
+                            <span class="menu-title">Documentation</span>
+                        </a>
+                    </li>*@
                 </ul>
             </nav>
             <!-- partial -->
@@ -270,55 +268,45 @@
                 <div class="content-wrapper">
                     @RenderBody()
                 </div>
-                <!-- content-wrapper ends -->
-                <!-- partial:partials/_footer.html -->
-                <footer class="footer">
-                    <div class="d-sm-flex justify-content-center justify-content-sm-between">
-                        <span class="text-center text-sm-left d-block d-sm-inline-block">Copyright © <a href="https://www.bootstrapdash.com/" target="_blank">bootstrapdash.com</a> 2020</span>
-                        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Free <a href="https://www.bootstrapdash.com/" target="_blank">Bootstrap dashboard </a>templates from Bootstrapdash.com</span>
-                    </div>
-                </footer>
-                <!-- partial -->
             </div>
-            <!-- main-panel ends -->
         </div>
-        <!-- page-body-wrapper ends -->
     </div>
-
     <span class="navbar-toggler-icon"></span>
-    <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-
-        <div class="container body-content">
-            <hr />
-            <footer>
-                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+    <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between" style="margin-left:130px;">
+        <div class="d-sm-flex justify-content-between">
+            <footer class="w-100">
+                <div class="row align-items-center justify-content-between">
+                    <div class="col-12 col-sm-auto text-center text-sm-left mb-2 mb-sm-0 m-3 ml-3 pe-lg-5">
+                        <p class="d-block d-sm-inline-block ml-3 pe-lg-5">&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+                    </div>
+                    <div class="col-12 col-sm-auto text-sm-center mb-2 mb-sm-0 m-3 pe-lg-5">
+                        <p class="d-block d-sm-inline-block ml-3 pe-lg-5">
+                            Copyright © <a href="@Url.Action("Index", "Account")" target="_blank">Online-Attendance-Software.com</a> 2024
+                        </p>
+                    </div>
+                    <div class=" col-sm-auto text-sm-end mb-2 mb-sm-0 m-3 pe-lg-5">
+                        <p class="mt-1 mt-sm-0 ml-3 pe-lg-5">
+                             <a href="@Url.Action("Index", "Account")" target="_blank"><i>Terms & Conditions</i></a> 
+                        </p>
+                    </div>
+                </div>
             </footer>
         </div>
+
 
     </div>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
-    <!-- container-scroller -->
-    <!-- base:js -->
     <script src="~/Content/vendors/js/vendor.bundle.base.js"></script>
-    <!-- endinject -->
-    <!-- Plugin js for this page-->
-    <!-- End plugin js for this page-->
-    <!-- inject:js -->
     <script src="~/Content/js/off-canvas.js"></script>
     <script src="~/Content/js/hoverable-collapse.js"></script>
     <script src="~/Content/js/template.js"></script>
     <script src="~/Content/js/settings.js"></script>
     <script src="~/Content/js/todolist.js"></script>
-    <!-- endinject -->
-    <!-- plugin js for this page -->
     <script src="~/Content/vendors/progressbar.js/progressbar.min.js"></script>
     <script src="~/Content/vendors/chart.js/Chart.min.js"></script>
-    <!-- End plugin js for this page -->
-    <!-- Custom js for this page-->
     <script src="~/Content/js/dashboard.js"></script>
-    <!-- End custom js for this page-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
