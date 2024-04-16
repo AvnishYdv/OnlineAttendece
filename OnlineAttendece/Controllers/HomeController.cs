@@ -33,8 +33,7 @@ namespace OnlineAttendece.Controllers
         public ActionResult Chart()
         {
             List<Attendence> AttreoList = new List<Attendence>();
-            // Retrieve attendance data from your data source
-            var attendanceData = db.Attendence_Master.ToList(); // Assuming Attendence_Master is the correct model
+            var attendanceData = db.Attendence_Master.ToList();
             foreach (var AttLoop in attendanceData)
             {
                 AttreoList.Add(new Attendence
@@ -67,7 +66,7 @@ namespace OnlineAttendece.Controllers
                 });
                 string officeName(int? officeId)
                 {
-                    string OffiName = OfficeList.Where(x => x.Office_Id == officeId).FirstOrDefault().Office_Name;
+                    string OffiName = OfficeList.Where(x => x.Office_Id == officeId).FirstOrDefault()?.Office_Name;
                     return OffiName;
                 }
             }
@@ -124,7 +123,6 @@ namespace OnlineAttendece.Controllers
             }
             return View(OffiMod);
         }
-        [HttpPost]
         [HttpGet]
         public JsonResult OfficeList()
         {
@@ -301,7 +299,6 @@ namespace OnlineAttendece.Controllers
             }
             catch (Exception)
             {
-                // Handle the exception appropriately
                 return View("Error");
             }
         }
@@ -345,7 +342,7 @@ namespace OnlineAttendece.Controllers
                 });
                 string officeName(int? officeId)
                 {
-                    string OffiName = OfficeList.Where(x => x.Office_Id == officeId).FirstOrDefault().Office_Name;
+                    string OffiName = OfficeList.Where(x => x.Office_Id == officeId).FirstOrDefault()?.Office_Name;
                     return OffiName;
                 }
             }
