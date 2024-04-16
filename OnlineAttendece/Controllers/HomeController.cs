@@ -12,7 +12,7 @@ namespace OnlineAttendece.Controllers
 
     public class HomeController : Controller
     {
-        Office_AttendanceEntities db = new Office_AttendanceEntities();
+        readonly Office_AttendanceEntities db = new Office_AttendanceEntities();
         public ActionResult Index()
         {
             List<Attendence> AttreoList = new List<Attendence>();
