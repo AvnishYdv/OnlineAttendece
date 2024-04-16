@@ -4,30 +4,16 @@
     ViewBag.Title = "Chart";
 }
 
-<h2 class="text-center m-2">Attendence Report</h2>
+<h2 class="text-center m-2">Attendance Report</h2>
 
 @if (Model != null && Model.Any())
 {
-<<<<<<< HEAD
-   
-=======
-    <table class="table mt-4">
-        <tr class="trreport">
-            <th>@Html.DisplayNameFor(model => model.Attendence_Id)</th>
-            <th>@Html.DisplayNameFor(model => model.Attendence_Date)</th>
-            <th>@Html.DisplayNameFor(model => model.Cheack_In_Time)</th>
-            <th>@Html.DisplayNameFor(model => model.Cheack_Out_Time)</th>
-            <th>@Html.DisplayNameFor(model => model.EMP_Id)</th>
-        </tr>
-
-    </table>
->>>>>>> 9750fccf5de8ec10d57d82a72c92165fcaeda74a
-
     <div>
         <canvas id="attendanceChart" width="800" height="400"></canvas>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="~/Scripts/chart.js"></script>
+ <!-- Adjust the path based on your project structure -->
 
     @section scripts {
         <script>
@@ -77,11 +63,6 @@
                     }
                 });
             }
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 9750fccf5de8ec10d57d82a72c92165fcaeda74a
         </script>
     }
 }
