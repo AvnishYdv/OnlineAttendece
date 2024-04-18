@@ -2,81 +2,127 @@
     ViewBag.Title = "Workingday";
 }
 
-<style>
-    .trWork, th {
-        border: 2px solid blue;
-    }
+@*<style>
+        .trWork, th {
+            border: 2px solid blue;
+        }
 
-    .trbody, td {
-        border: 1px solid blue;
-    }
-</style>
-<div class="row d-flex justify-content-center align-items-center ">
-    <h2 class="text-center">Working day Master</h2>
-    <div class="col-md-9 m-xl-4">
-        <form action="/Home/WorkingdayAdd" method="post">
-            <div class="row">
-                <div class="col-md-6 pr-md-8">
-                    <div class="form-group">
-                        <label asp-for="Day_Of_Week">Day Of Week:</label>
-                        <input asp-for="Day_Of_Week" class="form-control" name="Day_Of_Week" placeholder="Enter Days Of Week" />
+        .trbody, td {
+            border: 1px solid blue;
+        }
+    </style>*@
+<div class="main-wrapper">
+    <div class="page-wrapper">
+        <div class="content container-fluid">
+            <form action="/Home/WorkingdayAdd" method="post">
+                <div class="row">
+                    <div class="col-xl-12 col-sm-12 col-12 ">
+                        <div class="breadcrumb-path mb-4">
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="@Url.Action("Index","Home")">Home</a>
+                                </li>
+                                <li class="breadcrumb-item active">Working day Master </li>
+                            </ul>
+                            <h3>Create Working day </h3>
+                        </div>
+                    </div>
+                    <div class="col-xl-12 col-sm-12 col-12 ">
+                        <div class="card ">
+                            <div class="card-header">
+                                <h2 class="card-titles">
+                                    Working day  Details<span>
+                                        Please Enter Correct Detiles.
+                                    </span>
+                                </h2>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-xl-6 col-sm-12 col-12" style="display:none;">
+                                        <div class="form-group">
+                                            <label asp-for="Working_Day_Id">Working Day Id:</label>
+                                            <input asp-for="Working_Day_Id" class="form-control" id="Working_Day_Id" name="Working_Day_Id" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 form-group">
+                                        <label asp-for="Day_Of_Week">Day Of Week:</label>
+                                        <input asp-for="Day_Of_Week" class="form-control" id="Day_Of_Week" name="Day_Of_Week" placeholder="Enter Day Of Week  " />
+                                    </div>
+                                    <div class="col-sm-6 form-group">
+                                        <label asp-for="Start_Time">Start Time :</label>
+                                        <input asp-for="Start_Time" class="form-control" name="Start_Time" placeholder="Enter Start Time" />
+                                    </div>
+                                </div>
+                                <div class=" row">
+                                    <div class="col-sm-6">
+                                        <label asp-for="End_Time">End Time:</label>
+                                        <input asp-for="End_Time" class="form-control" name="End_Time" placeholder="Enter End Time" />
+                                    </div>
+                                </div>
+                                <div class="col-xl-12 col-sm-12 col-12 mt-4 ">
+                                    <div class="row">
+                                        <div class="col-xl-12 col-sm-12 col-12 ">
+                                            <div class="form-btn text-center">
+                                                <button type="submit" class="btn btn-apply w-auto">Add Working Day</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-6 pl-md-8 col-sm-6">
-                    <div class="form-group">
-                        <label asp-for="Start_Time">Start Time:</label>
-                        <input asp-for="Start_Time" class="form-control" name="Start_Time" placeholder="Enter Start Time HH:MM" />
+            </form>
+            <form id="deleteForm" action="@Url.Action("DeleteWorkingDay", "Home")" method="post">
+                <input type="hidden" name="id" id="WorkingDayId" value="" />
+            </form>
+            <div class="col-xl-12 col-sm-12 col-12 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="text-center m-4">Attendance List</h2>
+                        <div class="table-responsive">
+                            <table class="table  custom-table  no-footer">
+                                <thead>
+                                    <tr class=" text-center trWork">
+                                        <th>Working Day ID</th>
+                                        <th>Day Of Week</th>
+                                        <th>Start Time</th>
+                                        <th>End Time</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var WorkingDays in Model)
+                                    {
+                                        <tr class="text-center trbody">
+                                            <td>@WorkingDays.Working_Day_Id</td>
+                                            <td>@WorkingDays.Day_Of_Week</td>
+                                            <td>@WorkingDays.Start_Time</td>
+                                            <td>@WorkingDays.End_Time</td>
+                                            <td>
+                                                <label>
+                                                    <a class="action_label5" href="@Url.Action("Edit", "Home", new { id = WorkingDays.Working_Day_Id  })">Edit<i data-feather="edit"></i></a>
+                                                </label>
+                                                <label>
+                                                    <a class="action_label4" href="@Url.Action("DeleteWorkingDay", "Home", new {id = WorkingDays.Working_Day_Id })">Delete<i data-feather="trash-2"></i></a>
+                                                </label>
+                                            </td>
+                                        </tr>
+                                    }
+
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6 pr-md-8">
-                    <div class="form-group">
-                        <label asp-for="End_Time">End Time:</label>
-                        <input asp-for="End_Time" class="form-control" name="End_Time" placeholder="Enter End Time HH:MM" />
-                    </div>
-                </div>
-            </div>
-            <div class="text-center">
-                <button type="submit" class="btn btn-primary mt-3">Add Working Day</button>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
-@*This Is Delete Post Form*@
 
 <form id="deleteForm" action="@Url.Action("DeleteWorkingDay", "Home")" method="post">
     <input type="hidden" name="id" id="WorkingDayId" value="" />
-</form>s
-<div class="container mt-4">
-    <h2 class="text-center ">Working day List</h2>
-    <table class="table m-1 mt-4">
-        <thead>
-            <tr class=" text-center trWork">
-                <th>Working Day ID</th>
-                <th>Day Of Week</th>
-                <th>Start Time</th>
-                <th>End Time</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var WorkingDays in Model)
-            {
-                <tr class="text-center trbody">
-                    <td>@WorkingDays.Working_Day_Id</td>
-                    <td>@WorkingDays.Day_Of_Week</td>
-                    <td>@WorkingDays.Start_Time</td>
-                    <td>@WorkingDays.End_Time</td>
-                    <td>
-                        <a href="@Url.Action("Edit", "Home", new { id = WorkingDays.Working_Day_Id })"><i class="bi bi-pencil-square"></i></a> |
-                        <a href="@Url.Action("DeleteWorkingDay", "Home", new { id = WorkingDays.Working_Day_Id })"><i class="bi bi-trash3-fill"></i></a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
+</form>
 
 <script>
     function DeleteWorkingDay(WorkingDayId) {

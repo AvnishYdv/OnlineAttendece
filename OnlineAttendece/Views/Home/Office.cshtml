@@ -2,69 +2,120 @@
 @{
     ViewBag.Title = "Office";
 }
-<style>
-    .trhead, th {
-        border: 2px solid blue;
-    }
+@*<style>
+        .trhead, th {
+            border: 2px solid blue;
+        }
 
-    .trbody, td {
-        border: 1px solid blue;
-    }
-</style>
-
-<div class="row d-flex justify-content-center align-items-center ">
-    <h2 class="text-center">Office Master</h2>
-    <div class="col-md-9 m-3">
-        <form action="/Home/OfficeAdd" method="post">
-            <div class="row">
-                <div class="form-group row">
-                    <div class="col-sm-6 form-group" style="display: none;">
-                        <label asp-for="Office_Id">Office Id:</label>
-                        <input asp-for="Office_Id" class="form-control" id="Office_Id" name="Office_Id"  />
+        .trbody, td {
+            border: 1px solid blue;
+        }
+    </style>*@
+<div class="main-wrapper">
+    <div class="page-wrapper">
+        <div class="content container-fluid">
+            <form action="/Home/OfficeAdd" method="post">
+                <div class="row">
+                    <div class="col-xl-12 col-sm-12 col-12 ">
+                        <div class="breadcrumb-path mb-4">
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="@Url.Action("Index","Home")">Home</a>
+                                </li>
+                                <li class="breadcrumb-item active">Office Master</li>
+                            </ul>
+                            <h3>Create office</h3>
+                        </div>
                     </div>
-                    <div class="col-sm-6 form-group">
-                        <label asp-for="Office_Name">Office Name:</label>
-                        <input asp-for="Office_Name" class="form-control" id="Office_Name" name="Office_Name" placeholder="Enter Employee Office Name" />
-                    </div>
-                    <div class="col-sm-6 form-group">
-                        <label asp-for="Location">Location :</label>
-                        <input asp-for="Location" class="form-control" name="Location" placeholder="Enter Office Location" />
+                    <div class="col-xl-12 col-sm-12 col-12 ">
+                        <div class="card ">
+                            <div class="card-header">
+                                <h2 class="card-titles">
+                                    Office Details<span>
+                                        Please Enter Correct Detiles.
+                                    </span>
+                                </h2>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-xl-6 col-sm-12 col-12" style="display:none;">
+                                        <div class="form-group">
+                                            <label asp-for="Office_Id">Office Id:</label>
+                                            <input asp-for="Office_Id" name="Office_Id" id="Office_Id" placeholder="Office Id">
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-sm-12 col-12 ">
+                                        <div class="form-group">
+                                            <label asp-for="Office_Name">Office Name:</label>
+                                            <input asp-for="Office_Name" name="Office_Name" id="Office_Name" type="text" placeholder="Office Name">
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-sm-12 col-12 ">
+                                        <div class="form-group">
+                                            <label asp-for="Location">Location :</label>
+                                            <input asp-for="Location" name="Location" type="text" placeholder="Location">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6 col-sm-12 col-12 ">
+                                        <div class="form-group">
+                                            <label asp-for="Cantact_Info">Cantact Info:</label>
+                                            <input asp-for="Cantact_Info" name="Cantact_Info" type="text" placeholder="Cantact Info">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-12 col-sm-12 col-12 mt-4 ">
+                                    <div class="row">
+                                        <div class="col-xl-12 col-sm-12 col-12 ">
+                                            <div class="form-btn text-center">
+                                                <button type="submit" class="btn btn-apply w-auto">Add Office</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <div class="col-sm-6">
-                        <label asp-for="Cantact_Info">Cantact Info:</label>
-                        <input asp-for="Cantact_Info" class="form-control" name="Cantact_Info"  placeholder="Enter Office Contact Info"/>
+            </form>
+            <div class="col-xl-12 col-sm-12 col-12 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="text-center m-4">Attendance List</h2>
+                        <div class="table-responsive">
+                            <table class="table  custom-table  no-footer">
+                                <tr class="text-center trhead">
+                                    <th>Office_Id</th>
+                                    <th>Office_Name</th>
+                                    <th>Location</th>
+                                    <th>Cantact_Info</th>
+                                    <th>Action</th>
+                                </tr>
+                                @foreach (var OfficeList in Model)
+                                {
+                                    <tr class="text-center trbody">
+                                        <td>@OfficeList.Office_Id</td>
+                                        <td>@OfficeList.Office_Name</td>
+                                        <td>@OfficeList.Location</td>
+                                        <td>@OfficeList.Cantact_Info</td>
+                                        <td>
+                                            <div class="actionset">
+                                                <label>
+                                                    <a class="action_label5" href="@Url.Action("Edit", "Home", new { id = OfficeList.Office_Id })">Edit<i data-feather="edit"></i></a>
+                                                </label>
+                                                <label>
+                                                    <a class="action_label4" data-toggle="modal" data-target="#delete" href="@Url.Action("Delete", "Home", new { id = OfficeList.Office_Id })">Delete<i data-feather="trash-2"></i></a>
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
                     </div>
-                </div>
-                <div class="text-center mt-2">
-                    <button type="submit" class="btn btn-primary">Add Office</button>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
 </div>
-
-<h2 class="text-center m-4">Attendance List</h2>
-<table class="table">
-    <tr class="text-center trhead">
-        <th>Office_Id</th>
-        <th>Office_Name</th>
-        <th>Location</th>
-        <th>Cantact_Info</th>
-        <th>Action</th>
-    </tr>
-    @foreach (var OfficeList in Model)
-    {
-        <tr class="text-center trbody">
-            <td>@OfficeList.Office_Id</td>
-            <td>@OfficeList.Office_Name</td>
-            <td>@OfficeList.Location</td>
-            <td>@OfficeList.Cantact_Info</td>
-            <td>
-                <a href="@Url.Action("Edit", "Home", new { id = OfficeList.Office_Id })"><i class="bi bi-pencil-square"></i></a> |
-                <a href="@Url.Action("Delete", "Home", new { id = OfficeList.Office_Id })"><i class="bi bi-trash3-fill"></i></a>
-            </td>
-        </tr>
-    }
-</table>

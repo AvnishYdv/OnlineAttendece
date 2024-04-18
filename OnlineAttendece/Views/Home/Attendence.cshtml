@@ -1,87 +1,133 @@
-﻿@{
+﻿@model IEnumerable<OnlineAttendece.Models.Attendence>
+@{
     ViewBag.Title = "Attendence";
 }
 
-<style>
-    .trAtt, th {
-        border: 2px solid blue;
-    }
+@*<style>
+        .trAtt, th {
+            border: 2px solid blue;
+        }
 
-    .trbody, td {
-        border: 1px solid blue;
-    }
-</style>
-<div class="row justify-content-center mt-1 p-3">
-    <h2 class="text-center">Attendence Master</h2>
-    <div class="col-md-8 mt-3">
-        <form action="/Home/AttendenceAdd" method="post">
-            <div class="form-group row">
-                <div class="col-sm-6">
-                    <label class="col-form-label">Attendence Date:</label>
-                    <input type="date" class="form-control" name="Attendence_Date" />
+        .trbody, td {
+            border: 1px solid blue;
+        }
+    </style>*@
+<div class="main-wrapper">
+    <div class="page-wrapper">
+        <div class="content container-fluid">
+            <form action="/Home/AttendenceAdd" method="post">
+                <div class="row">
+                    <div class="col-xl-12 col-sm-12 col-12 ">
+                        <div class="breadcrumb-path mb-4">
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="@Url.Action("Index","Home")">Home</a>
+                                </li>
+                                <li class="breadcrumb-item active">Attendance Master</li>
+                            </ul>
+                            <h3>Create Attendance</h3>
+                        </div>
+                    </div>
+                    <div class="col-xl-12 col-sm-12 col-12 ">
+                        <div class="card ">
+                            <div class="card-header">
+                                <h2 class="card-titles">
+                                    Attendance Details<span>
+                                        Please Enter Correct Detiles.
+                                    </span>
+                                </h2>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    @*<div class="col-xl-6 col-sm-12 col-12" style="display:none;">
+                                        <div class="form-group">
+                                            <label asp-for="Attendence_Id">EMP Id:</label>
+                                            <input asp-for="Attendence_Id" class="form-control" id="Attendence_Id" name="Attendence_Id" />
+                                        </div>
+                                    </div>*@
+                                    <div class="col-sm-6 form-group">
+                                        <label class="col-form-label">Attendence Date:</label>
+                                        <input type="date" class="form-control" name="Attendence_Date" />
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label class="col-form-label">Cheack In Time:</label>
+                                        <input type="text" class="form-control" name="Cheack_In_Time" placeholder="Enter Check In Time" />
+                                    </div>
+                                </div>
+                                <div class=" row">
+                                    <div class="col-sm-6">
+                                        <label class="col-form-label">Cheack Out Time:</label>
+                                        <input type="text" class="form-control" name="Cheack_Out_Time" placeholder="Enter Check Out Time" />
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label asp-for="EMP_Id" class="col-form-label">Select Employee Id :</label>
+                                        <select asp_for="EMP_Id" name="EMP_Id" Id="EMP_Id" class=" form-control dropdown-item-text" style="border:.5px solid blue">
+                                            <option>Select</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-xl-12 col-sm-12 col-12 mt-4 ">
+                                    <div class="row">
+                                        <div class="col-xl-12 col-sm-12 col-12 ">
+                                            <div class="form-btn text-center">
+                                                <button type="submit" class="btn btn-apply w-auto mt-3">Add Attendance</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-sm-6 ml-6">
-                    <label class="col-form-label">Cheack In Time:</label>
-                    <input type="time" class="form-control" name="Cheack_In_Time" />
+            </form>
+            <form id="deleteForm" action="@Url.Action("DeleteAttendance", "Home")" method="post">
+                <input type="hidden" name="id" id="attendanceId" value="" />
+            </form>
+            <div class="col-xl-12 col-sm-12 col-12 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="text-center m-4">Attendance List</h2>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr class="text-center trAtt">
+                                        <th>Attendance ID</th>
+                                        <th>Attendance Date</th>
+                                        <th> Check In Time</th>
+                                        <th> Check Out Time</th>
+                                        <th>EMP Id</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @foreach (var Attendance in Model)
+                                    {
+                                        <tr class="text-center trbody">
+                                            <td>@Attendance.Attendence_Id</td>
+                                            <td>@Attendance.Attendence_Date.ToString("yyyy-MM-dd")</td>
+                                            <td>@Attendance.Cheack_In_Time</td>
+                                            <td>@Attendance.Cheack_Out_Time</td>
+                                            <td>@Attendance.EMP_Name</td>
+                                            <td>
+                                                <label>
+                                                    <a class="action_label5" href="@Url.Action("Edit", "Home", new { id = Attendance.Attendence_Id })">Edit<i data-feather="edit"></i></a>
+                                                </label>
+                                                <label>
+                                                    <a class="action_label4" href="@Url.Action("DeleteAttendance", "Home", new { id = Attendance.Attendence_Id })" onclick="deleteAttendance(@Attendance.Attendence_Id)">Delete<i data-feather="trash-2"></i></a>
+                                                </label>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="form-group row">
-                <div class="col-sm-6">
-                    <label class="col-form-label">Cheack Out Time:</label>
-                    <input type="time" class="form-control" name="Cheack_Out_Time"/>
-                </div>
-                <div class="col-sm-6 ml-6">
-                    <label asp-for="EMP_Id" class="col-form-label">Select Employee Id :</label>
-                    <select asp_for="EMP_Id" name="EMP_Id" Id="EMP_Id" class=" form-control dropdown-item-text" style="border:.5px solid blue">
-                        <option>Select</option>
-                    </select>
-                </div>
-            </div>
-            <div class="text-center p-2">
-                <button type="submit" class="btn btn-primary">Add Attendance</button>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
-                  @*This Is Delete Post Form*@ 
-
-<form id="deleteForm" action="@Url.Action("DeleteAttendance", "Home")" method="post">
-    <input type="hidden" name="id" id="attendanceId" value="" />
-</form>
-
-<div class="mt-5">
-    <h2 class="text-center m-4">Attendance List</h2>
-    <table class="table">
-        <thead>
-            <tr class="text-center trAtt">
-                <th>Attendance ID</th>
-                <th>Attendance Date</th>
-                <th>Attendance Check In Time</th>
-                <th>Attendance Check Out Time</th>
-                <th>EMP Id</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            @foreach (var Attendance in Model)
-            {
-                <tr class="text-center trbody">
-                    <td>@Attendance.Attendence_Id</td>
-                    <td>@Attendance.Attendence_Date.ToString("yyyy-MM-dd")</td>
-                    <td>@Attendance.Cheack_In_Time</td>
-                    <td>@Attendance.Cheack_Out_Time</td>
-                    <td>@Attendance.EMP_Name</td>
-                    <td>
-                        <a href="@Url.Action("Edit", "Home", new { id = Attendance.Attendence_Id })"><i class="bi bi-pencil-square"></i></a> |
-                        <a href="@Url.Action("DeleteAttendance", "Home", new { id = Attendance.Attendence_Id })" onclick="deleteAttendance(@Attendance.Attendence_Id)"><i class="bi bi-trash3-fill"></i></a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
-
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
@@ -101,6 +147,6 @@
             document.getElementById("deleteForm").submit();
         }
     }
-    
+
 </script>
 

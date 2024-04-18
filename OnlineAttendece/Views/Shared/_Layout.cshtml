@@ -1,314 +1,250 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title Attendence Softwear</title>
-    <!-- base:css -->
-    <link rel="stylesheet" href="~/Content/vendors/typicons.font/font/typicons.css">
-    <link rel="stylesheet" href="~/Content/vendors/css/vendor.bundle.base.css">
-    <link rel="stylesheet" href="~/Content/css/vertical-layout-light/style.css">
-    <link rel="shortcut icon" href="~/Content/images/favicon.png" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Dleohr - Bootstrap Admin HTML Template</title>
+    <link rel="shortcut icon" href="~/Content/assets/img/favicon.png" />
+    <link rel="stylesheet" href="~/Content/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Content/assets/plugins/fontawesome/css/fontawesome.min.css" />
+    <link rel="stylesheet" href="~/Content/assets/css/style.css" />
+    <!--[if lt IE 9]>
+        <script src="assets/js/html5shiv.min.js"></script>
+        <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
     <link href="path/to/bootstrap-icons.css" rel="stylesheet">
-
-
-
-
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="row" id="proBanner">
-        <div class="col-12">
-            <span>
-                <a href="https://www.bootstrapdash.com/product/celestial-admin-template/?utm_source=organic&utm_medium=banner&utm_campaign=free-preview" target="_blank" class="btn download-button purchase-button ml-auto">Upgrade To Pro</a>
-                <i class="typcn typcn-delete-outline" id="bannerClose"></i>
-            </span>
-        </div>
-    </div>
-    <div class="container-scroller">
-        <!-- partial:partials/_navbar.html -->
-        <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-            <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-                <a class="navbar-brand brand-logo" href="@Url.Action("Index", "Home")"><img src="~/Content/IMG/logo.svg" alt="logo" style="width:150px;"/></a>
-                <a class="navbar-brand brand-logo-mini" href="@Url.Action("Index", "Home")"><img src="~/Content/images/logo-mini.svg" alt="logo" /></a>
-                <button class="navbar-toggler navbar-toggler align-self-center d-none d-lg-flex" type="button" data-toggle="minimize">
-                    <span class="typcn typcn-th-menu"></span>
-                </button>
+    <div class="main-wrapper">
+        <div class="header">
+            <div class="header-left">
+                <a href="index.html" class="logo">
+                    <img src="~/Content/IMG/logo1.png" alt="Logo">
+                </a>
+                <a href="index.cshtml" class="logo logo-small">
+                    <img src="~/Content/IMG/logo3.png" alt="Logo" width="30" height="30" />
+                </a>
+                <a href="javascript:void(0);" id="toggle_btn">
+                    <span class="bar-icon">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </span>
+                </a>
             </div>
-            <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-                <ul class="navbar-nav mr-lg-2">
-                    <li class="nav-item  d-none d-lg-flex">
-                        <a class="nav-link active" href="#">
-                            Statistic
-                        </a>
-                    </li>
-                    <li class="nav-item  d-none d-lg-flex">
-                        <a class="nav-link" href="@Url.Action("Office", "Home")">
-                            Office Master
-                        </a>
-                    </li>
-                    <li class="nav-item  d-none d-lg-flex">
-                        <a class="nav-link" href="@Url.Action("Employee", "Home")">
-                            Employee Master
-                        </a>
-                    </li>
-                    <li class="nav-item  d-none d-lg-flex">
-                        <a class="nav-link" href="@Url.Action("Attendence", "Home")">
-                            Attendece Master
-                        </a>
-                    </li>
-
-                </ul>
-                <ul class="navbar-nav navbar-nav-right">
-                    <li class="nav-item nav-profile dropdown">
-                        <a class="nav-link dropdown-toggle  pl-0 pr-0" href="#" data-toggle="dropdown" id="profileDropdown">
-                            <i class="typcn typcn-user-outline mr-0"></i>
-                            <span class="nav-profile-name">@Session["UserName"].ToString()</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                            <a class="dropdown-item">
-                                <i class="typcn typcn-cog text-primary"></i>
-                                Settings
-                            </a>
-                            <a class="dropdown-item" href="@Url.Action("Index", "Account")" >
-                                <i class="typcn typcn-power text-primary"></i>
-                                Logout
-                            </a>
+            <div class="top-nav-search">
+                <form>
+                    <input type="text" class="form-control" placeholder="">
+                    <button class="btn" type="submit"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+            <a class="mobile_btn" id="mobile_btn">
+                <i class="fas fa-bars"></i>
+            </a>
+            <ul class="nav user-menu">
+                <li class="nav-item dropdown">
+                    <a href="#" class="dropdown-toggle nav-link pr-0" data-toggle="dropdown">
+                        <i data-feather="bell"></i> <span class="badge badge-pill"></span>
+                    </a>
+                    <div class="dropdown-menu notifications">
+                        <div class="topnav-dropdown-header">
+                            <span class="notification-title">Notifications</span>
+                            <a href="javascript:void(0)" class="clear-noti"> Clear All</a>
                         </div>
-                    </li>
-                </ul>
-                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-                    <span class="typcn typcn-th-menu"></span>
-                </button>
-            </div>
-        </nav>
-        <!-- partial -->
-        <div class="container-fluid page-body-wrapper">
-            <!-- partial:partials/_settings-panel.html -->
-            <div class="theme-setting-wrapper">
-                <div id="settings-trigger"><i class="typcn typcn-cog-outline"></i></div>
-                <div id="theme-settings" class="settings-panel">
-                    <i class="settings-close typcn typcn-delete-outline"></i>
-                    <p class="settings-heading">SIDEBAR SKINS</p>
-                    <div class="sidebar-bg-options" id="sidebar-light-theme">
-                        <div class="img-ss rounded-circle bg-light border mr-3"></div>
-                        Light
+                        <div class="noti-content">
+                            <ul class="notification-list">
+                                <li class="notification-message">
+                                    <a href="activities.html">
+                                        <div class="media">
+                                            <span class="avatar avatar-sm">
+                                                <img class="avatar-img rounded-circle" alt="" src="~/Content/assets/img/profiles/avatar-02.jpg">
+                                            </span>
+                                            <div class="media-body">
+                                                <p class="noti-details"><span class="noti-title">Brian Johnson</span> paid the invoice <span class="noti-title">#DF65485</span></p>
+                                                <p class="noti-time"><span class="notification-time">4 mins ago</span></p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="activities.html">
+                                        <div class="media">
+                                            <span class="avatar avatar-sm">
+                                                <img class="avatar-img rounded-circle" alt="" src="~/Content/assets/img/profiles/avatar-03.jpg">
+                                            </span>
+                                            <div class="media-body">
+                                                <p class="noti-details"><span class="noti-title">Marie Canales</span> has accepted your estimate <span class="noti-title">#GTR458789</span></p>
+                                                <p class="noti-time"><span class="notification-time">6 mins ago</span></p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="activities.html">
+                                        <div class="media">
+                                            <div class="avatar avatar-sm">
+                                                <span class="avatar-title rounded-circle bg-primary-light"><i class="far fa-user"></i></span>
+                                            </div>
+                                            <div class="media-body">
+                                                <p class="noti-details"><span class="noti-title">New user registered</span></p>
+                                                <p class="noti-time"><span class="notification-time">8 mins ago</span></p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="activities.html">
+                                        <div class="media">
+                                            <span class="avatar avatar-sm">
+                                                <img class="avatar-img rounded-circle" alt="" src="~/Content/assets/img/profiles/avatar-04.jpg">
+                                            </span>
+                                            <div class="media-body">
+                                                <p class="noti-details"><span class="noti-title">Barbara Moore</span> declined the invoice <span class="noti-title">#RDW026896</span></p>
+                                                <p class="noti-time"><span class="notification-time">12 mins ago</span></p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="activities.html">
+                                        <div class="media">
+                                            <div class="avatar avatar-sm">
+                                                <span class="avatar-title rounded-circle bg-info-light"><i class="far fa-comment"></i></span>
+                                            </div>
+                                            <div class="media-body">
+                                                <p class="noti-details"><span class="noti-title">You have received a new message</span></p>
+                                                <p class="noti-time"><span class="notification-time">2 days ago</span></p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="topnav-dropdown-footer">
+                            <a href="activities.html">View all Notifications</a>
+                        </div>
                     </div>
-                    <div class="sidebar-bg-options selected" id="sidebar-dark-theme">
-                        <div class="img-ss rounded-circle bg-dark border mr-3"></div>
-                        Dark
+                </li>
+                <li class="nav-item dropdown has-arrow main-drop">
+                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                        <span class="user-img">
+                            <img src="~/Content/assets/img/profile.jpg" alt="">
+                            <span class="status online"></span>
+                        </span>
+                        <span>@Session["UserName"].ToString()</span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="profile.html"><i data-feather="user" class="mr-1"></i> Profile</a>
+                        <a class="dropdown-item" href="settings.html"><i data-feather="settings" class="mr-1"></i> Settings</a>
+                        <a class="dropdown-item" href="@Url.Action("Logout", "Home")"><i data-feather="log-out" class="mr-1"></i> Logout</a>
                     </div>
-                    <p class="settings-heading mt-2">HEADER SKINS</p>
-                    <div class="color-tiles mx-0 px-4">
-                        <div class="tiles success"></div>
-                        <div class="tiles warning"></div>
-                        <div class="tiles danger"></div>
-                        <div class="tiles primary"></div>
-                        <div class="tiles info"></div>
-                        <div class="tiles dark"></div>
-                        <div class="tiles default border"></div>
-                    </div>
+                </li>
+            </ul>
+            <div class="dropdown mobile-user-menu show">
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                <div class="dropdown-menu dropdown-menu-right ">
+                    <a class="dropdown-item" href="profile.html">My Profile</a>
+                    <a class="dropdown-item" href="settings.html">Settings</a>
+                    <a class="dropdown-item" href="@Url.Action("Logout", "Home")">Logout</a>
                 </div>
             </div>
-            <!-- partial -->
-            <!-- partial:partials/_sidebar.html -->
-            <nav class="sidebar sidebar-offcanvas" id="sidebar">
-                <ul class="nav">
-                    <li class="nav-item">
-                        <div class="d-flex sidebar-profile">
-                            <div class="sidebar-profile-image">
-                                <img src="~/Content/images/faces/face29.png" alt="image">
-                                <span class="sidebar-status-indicator"></span>
+
+        </div>
+        @*Side Bar Start*@
+
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div class="sidebar-contents">
+                    <div id="sidebar-menu" class="sidebar-menu">
+                        <div class="mobile-show">
+                            <div class="offcanvas-menu">
+                                <div class="user-info align-center bg-theme text-center">
+                                    <span class="lnr lnr-cross  text-white" id="mobile_btn_close">X</span>
+                                    <a href="javascript:void(0)" class="d-block menu-style text-white">
+                                        <div class="user-avatar d-inline-block mr-3">
+                                            <img src="~/Content/assets/img/profiles/avatar-18.jpg" alt="user avatar" class="rounded-circle" width="50">
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
-                            <div class="sidebar-profile-name">
-                                <p class="sidebar-name">
-                                    <span class="nav-profile-name">@Session["UserName"].ToString()</span>
-                                </p>
-                                <p class="sidebar-designation">
-                                    Welcome
-                                </p>
-                            </div>
-                        </div>
-                        <div class="nav-search">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Type to search..." aria-label="search" aria-describedby="search">
-                                <div class="input-group-append">
-                                    <span class="input-group-text" id="search">
-                                        <i class="typcn typcn-zoom"></i>
-                                    </span>
+                            <div class="sidebar-input">
+                                <div class="top-nav-search">
+                                    <form>
+                                        <input type="text" class="form-control" placeholder="Search here">
+                                        <button class="btn" type="submit"><i class="fas fa-search"></i></button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
-                        <p class="sidebar-menu-title">Dash menu</p>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                            <i class="typcn typcn-device-desktop menu-icon"></i>
-                            <span class="menu-title">Master Form <span class="badge badge-primary ml-3">New</span></span>
-                            <i class="typcn typcn-chevron-right menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="ui-basic">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("Office", "Home")">Office Master</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("Employee","Home")">Employee Master</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("Attendence", "Home")">Attendence Master</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("WorkingDay","Home")">Working Day Master</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("Holiday", "Home")">Holiday Master</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                            <i class="typcn typcn-briefcase menu-icon"></i>
-                            <span class="menu-title">Master Reports</span>
-                            <i class="typcn typcn-chevron-right menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="ui-basic">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("OfficeReport", "Home")">Office Report</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("EmployeeReport","Home")">Employee Report</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("AttendenceReport", "Home")">Attendence Report</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("WorkingDayReport","Home")">Working Day Report</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("HolidayReport", "Home")">Holiday Report</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">
-                            <i class="typcn typcn-film menu-icon"></i>
-                            <span class="menu-title">Form elements</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="form-elements">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"><a class="nav-link" href="pages/forms/basic_elements.html">Basic Elements</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">
-                            <i class="typcn typcn-chart-pie-outline menu-icon"></i>
-                            <span class="menu-title">Charts</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="charts">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("Chart","Home")">Attendance Chart</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
-                            <i class="typcn typcn-th-small-outline menu-icon"></i>
-                            <span class="menu-title">Tables</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="tables">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="pages/tables/basic-table.html">Basic table</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#icons" aria-expanded="false" aria-controls="icons">
-                            <i class="typcn typcn-compass menu-icon"></i>
-                            <span class="menu-title">Icons</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="icons">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="pages/icons/mdi.html">Mdi icons</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
-                            <i class="typcn typcn-user-add-outline menu-icon"></i>
-                            <span class="menu-title">User Pages</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="auth">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="pages/samples/login.html"> Login </a></li>
-                                <li class="nav-item"> <a class="nav-link" href="pages/samples/register.html"> Register </a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#error" aria-expanded="false" aria-controls="error">
-                            <i class="typcn typcn-globe-outline menu-icon"></i>
-                            <span class="menu-title">Error pages</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="error">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="pages/samples/error-404.html"> 404 </a></li>
-                                <li class="nav-item"> <a class="nav-link" href="pages/samples/error-500.html"> 500 </a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="pages/documentation/documentation.html">
-                            <i class="typcn typcn-document-text menu-icon"></i>
-                            <span class="menu-title">Documentation</span>
-                        </a>
-                    </li>
-                    @*<li class="nav-item">
-                        <a class="nav-link" href="pages/documentation/documentation.html">
-                            <i class="typcn typcn-document-text menu-icon"></i>
-                            <span class="menu-title">Documentation</span>
-                        </a>
-                    </li>*@
-                </ul>
-            </nav>
-            <!-- partial -->
-            <div class="main-panel">
-                <div class="content-wrapper">
-                    @RenderBody()
+                        <ul>
+                            <li class="active">
+                                <a href="@Url.Action("Index", "Home")"><img src="~/Content/assets/img/home.svg" alt="sidebar_img"> <span>Dashboard</span></a>
+                            </li>
+                            <li>
+                                <a><img src="~/Content/assets/img/employee.svg" alt="sidebar_img"><span>Master Form</span></a>
+                                <ul class="dropdown">
+                                    <li> <a class="card-link" href="@Url.Action("Office", "Home")">Office Master</a></li>
+                                    <li> <a class="card-link" href="@Url.Action("Employee","Home")">Employee Master</a></li>
+                                    <li> <a class="card-link" href="@Url.Action("Attendence", "Home")">Attendence Master</a></li>
+                                    <li> <a class="card-link" href="@Url.Action("WorkingDay","Home")">Working Day Master</a></li>
+                                    <li> <a class="card-link" href="@Url.Action("Holiday", "Home")">Holiday Master</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a><img src="~/Content/assets/img/report.svg" alt="sidebar_img"><span>Master Report</span></a>
+                                <ul class="dropdown-center">
+                                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("OfficeReport", "Home")">Office Report</a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("EmployeeReport","Home")">Employee Report</a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("AttendenceReport", "Home")">Attendence Report</a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("WorkingDayReport","Home")">Working Day Report</a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("HolidayReport", "Home")">Holiday Report</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="company.html"><img src="~/Content/assets/img/company.svg" alt="sidebar_img"> <span> Company</span></a>
+                            </li>
+                            <li>
+                                <a href="calendar.html"><img src="~/Content/assets/img/calendar.svg" alt="sidebar_img"> <span>Calendar</span></a>
+                            </li>
+                            <li>
+                                <a href="leave.html"><img src="~/Content/assets/img/leave.svg" alt="sidebar_img"> <span>Leave</span></a>
+                            </li>
+                            <li>
+                                <a href="review.html"><img src="~/Content/assets/img/review.svg" alt="sidebar_img"><span>Review</span></a>
+                            </li>
+                            <li>
+                                <a href="manage.html"><img src="~/Content/assets/img/manage.svg" alt="sidebar_img"> <span>Manage</span></a>
+                            </li>
+                            <li>
+                                <a href="settings.html"><img src="~/Content/assets/img/settings.svg" alt="sidebar_img"><span>Settings</span></a>
+                            </li>
+                            <li>
+                                <a href="profile.html"><img src="~/Content/assets/img/profile.svg" alt="sidebar_img"> <span>Profile</span></a>
+                            </li>
+                        </ul>
+                        <ul class="logout">
+                            <li>
+                                <a href="@Url.Action("Logout", "Home")"><img src="~/Content/assets/img/logout.svg" alt="sidebar_img"><span>Log out</span></a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <span class="navbar-toggler-icon"></span>
-    <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between" style="margin-left:130px;">
-        <div class="d-sm-flex justify-content-between">
-            <footer class="w-100">
-                <div class="row align-items-center justify-content-between">
-                    <div class="col-12 col-sm-auto text-center text-sm-left mb-2 mb-sm-0 m-3 ml-3 pe-lg-5">
-                        <p class="d-block d-sm-inline-block ml-3 pe-lg-5">&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-                    </div>
-                    <div class="col-12 col-sm-auto text-sm-center mb-2 mb-sm-0 m-3 pe-lg-5">
-                        <p class="d-block d-sm-inline-block ml-3 pe-lg-5">
-                            Copyright © <a href="@Url.Action("Index", "Account")" target="_blank">Online-Attendance-Software.com</a> 2024
-                        </p>
-                    </div>
-                    <div class=" col-sm-auto text-sm-end mb-2 mb-sm-0 m-3 pe-lg-5">
-                        <p class="mt-1 mt-sm-0 ml-3 pe-lg-5">
-                             <a href="@Url.Action("Index", "Account")" target="_blank"><i>Terms & Conditions</i></a> 
-                        </p>
-                    </div>
-                </div>
-            </footer>
+        <div class="content-wrapper">
+            <!-- Your rendered page content goes here -->
+            @RenderBody();
         </div>
-
-
     </div>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
-    <script src="~/Content/vendors/js/vendor.bundle.base.js"></script>
-    <script src="~/Content/js/off-canvas.js"></script>
-    <script src="~/Content/js/hoverable-collapse.js"></script>
-    <script src="~/Content/js/template.js"></script>
-    <script src="~/Content/js/settings.js"></script>
-    <script src="~/Content/js/todolist.js"></script>
-    <script src="~/Content/vendors/progressbar.js/progressbar.min.js"></script>
-    <script src="~/Content/vendors/chart.js/Chart.min.js"></script>
-    <script src="~/Content/js/dashboard.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/Content/assets/js/jquery-3.6.0.min.js"></script>
+    <script src="~/Content/assets/js/popper.min.js"></script>
+    <script src="~/Content/assets/js/bootstrap.min.js"></script>
+    <script src="~/Content/assets/js/feather.min.js"></script>
+    <script src="~/Content/assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="~/Content/assets/plugins/apexchart/apexcharts.min.js"></script>
+    <script src="~/Content/assets/plugins/apexchart/chart-data.js"></script>
+    <script src="~/Content/assets/js/script.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
 </body>
 </html>

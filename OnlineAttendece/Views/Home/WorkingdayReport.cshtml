@@ -6,49 +6,72 @@
 }
 <style>
     .trreport, th {
-        border: 2px solid #434a54;
         text-align: center;
         background: #434a54;
         color: antiquewhite;
     }
 
     .trreport1, td {
-        border: 1px solid orange;
         text-align: center;
     }
 </style>
+<div class="main-wrapper">
+    <div class="page-wrapper">
+        <div class="content container-fluid">
+            <div class="row">
+                <div class="col-xl-12 col-sm-12 col-12 ">
+                    <div class="breadcrumb-path mb-4">
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("Index","Home")">Home</a>
+                            </li>
+                            <li class="breadcrumb-item active">Working day Report</li>
+                        </ul>
+                        <h3>Create Working day</h3>
+                    </div>
+                    <h2 class="text-center m-4">Working day Report</h2>
+                </div>
+                <div class="col-xl-12 col-sm-12 col-12 ">
+                    <div class="card">
+                        <div class="table-responsive">
+                            <table class="table  custom-table  no-footer">
+                                <tr class="trreport">
+                                    <th>Sr. No.</th>
+                                    <th>Day Of Week</th>
+                                    <th>Start Time</th>
+                                    <th>End Time</th>
+                                </tr>
 
-<h2 class="text-center m-2">Workingday Report</h2>
-<table class="table mt-4" id="view1Table">
-    <tr class="trreport">
-        <th>Sr. No.</th>
-        <th>Day Of Week</th>
-        <th>Start Time</th>
-        <th>End Time</th>
-    </tr>
+                                @{int i = 1; }
+                                @foreach (var item in Model)
+                                {
+                                    if (@item.Holidaymatch == true)
+                                    {
+                                        <tr class="trreport1" style="background-color:red; color:black;">
+                                            <td>@i</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Day_Of_Week)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Start_Time)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.End_Time)</td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                        <tr class="trreport1">
+                                            <td>@i</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Day_Of_Week)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Start_Time)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.End_Time)</td>
+                                        </tr>
+                                    }
+                                    i++;
+                                }
 
-    @{int i = 1; }
-    @foreach (var item in Model)
-    {
-        if (@item.Holidaymatch == true)
-        {
-            <tr class="trreport1" style="background-color:red; color:black;">
-                <td>@i</td>
-                <td>@Html.DisplayFor(modelItem => item.Day_Of_Week)</td>
-                <td>@Html.DisplayFor(modelItem => item.Start_Time)</td>
-                <td>@Html.DisplayFor(modelItem => item.End_Time)</td>
-            </tr>
-        }
-        else
-        {
-            <tr class="trreport1">
-                <td>@i</td>
-                <td>@Html.DisplayFor(modelItem => item.Day_Of_Week)</td>
-                <td>@Html.DisplayFor(modelItem => item.Start_Time)</td>
-                <td>@Html.DisplayFor(modelItem => item.End_Time)</td>
-            </tr>
-        }
-        i++;
-    }
-
-</table>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*Old Data *@
