@@ -5,39 +5,61 @@
 }
 <style>
     .trreport, th {
-        border: 2px solid #434a54;
         text-align: center;
         background: #434a54;
         color: antiquewhite;
     }
 
     .trreport1, td {
-        border: 1px solid orange;
         text-align: center;
     }
 </style>
-<h2  class="text-center m-2">Employee Report</h2>
+<div class="main-wrapper">
+    <div class="page-wrapper">
+        <div class="content container-fluid">
+            <div class="row">
+                <div class="col-xl-12 col-sm-12 col-12 ">
+                    <div class="breadcrumb-path mb-4">
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("Index","Home")">Home</a>
+                            </li>
+                            <li class="breadcrumb-item active">Office Master</li>
+                        </ul>
+                        <h3>Create Employee</h3>
+                    </div>
+                    <h2 class="text-center mb-3">Employee Report</h2>
+                </div>
+                <div class="col-xl-12 col-sm-12 col-12 ">
+                    <div class="card">
+                        <div class="table-responsive">
+                            <table class="table  custom-table  no-footer">
+                                <tr class="trreport">
+                                    <th> Sr. No.</th>
+                                    <th>EMP Name</th>
+                                    <th>Designation</th>
+                                    <th>Department</th>
+                                    <th>Office Id</th>
+                                </tr>
+                                @{int i = 1; }
+                                @foreach (var item in Model)
+                                {
+                                    <tr class="trreport1">
+                                        <td>@i</td>
+                                        <td>@Html.DisplayFor(modelItem => item.EMP_Name)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Designation)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Department)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Office_Name)</td>
 
-<table class="table mt-4">
-    <tr class="trreport">
-        <th> Sr. No.</th>
-        <th>EMP Name</th>
-        <th>Designation</th>
-        <th>Department</th>
-        <th>Office Id</th>
-    </tr>
-    @{int i = 1; }
-    @foreach (var item in Model)
-    {
-        <tr class="trreport1">
-            <td>@i</td>
-            <td>@Html.DisplayFor(modelItem => item.EMP_Name)</td>
-            <td>@Html.DisplayFor(modelItem => item.Designation)</td>
-            <td>@Html.DisplayFor(modelItem => item.Department)</td>
-            <td>@Html.DisplayFor(modelItem => item.Office_Name)</td>
+                                    </tr>
+                                    i++;
+                                }
 
-        </tr>
-        i++;
-    }
-
-</table>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

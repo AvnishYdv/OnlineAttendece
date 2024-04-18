@@ -15,20 +15,7 @@ namespace OnlineAttendece.Controllers
         readonly Office_AttendanceEntities db = new Office_AttendanceEntities();
         public ActionResult Index()
         {
-            List<Attendence> AttreoList = new List<Attendence>();
-            // Retrieve attendance data from your data source
-            var attendanceData = db.Attendence_Master.ToList(); // Assuming Attendence_Master is the correct model
-            foreach(var  AttLoop in attendanceData)
-            {
-                AttreoList.Add(new Attendence
-                {
-                     Attendence_Id = AttLoop.Attendence_Id,
-                     Attendence_Date = (DateTime)AttLoop.Attendence_Date,
-                     Cheack_In_Time = (TimeSpan)AttLoop.Cheack_In_Time,
-                     Cheack_Out_Time = (TimeSpan)AttLoop.Cheack_In_Time
-                });
-            }
-            return View(AttreoList);
+            return View();
         }
         public ActionResult Chart()
         {
@@ -171,7 +158,7 @@ namespace OnlineAttendece.Controllers
             }
             string ename(int? empid)
             {
-                string name = emplist.Where(x => x.EMP_Id == empid).FirstOrDefault().EMP_Name;
+                string name = emplist.Where(x => x.EMP_Id == empid).FirstOrDefault()?.EMP_Name;
                 return name;
             }
             return View(AttMod);

@@ -91,16 +91,6 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Office_AttendanceModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Attendence_Master">
-          <Key>
-            <PropertyRef Name="Attendence_Id" />
-          </Key>
-          <Property Name="Attendence_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Attendence_Date" Type="DateTime" Precision="0" />
-          <Property Name="Cheack_In_Time" Type="Time" Precision="7" />
-          <Property Name="Cheack_Out_Time" Type="Time" Precision="7" />
-          <Property Name="EMP_Id" Type="Int32" />
-        </EntityType>
         <EntityType Name="Employee_Master">
           <Key>
             <PropertyRef Name="EMP_Id" />
@@ -152,7 +142,6 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="Office_AttendanceEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Attendence_Master" EntityType="Self.Attendence_Master" />
           <EntitySet Name="Employee_Master" EntityType="Self.Employee_Master" />
           <EntitySet Name="Holiday_Master" EntityType="Self.Holiday_Master" />
           <EntitySet Name="Office_Master" EntityType="Self.Office_Master" />
@@ -162,6 +151,7 @@
             <End Role="Working_day_Master1" EntitySet="Working_day_Master" />
           </AssociationSet>
           <EntitySet Name="AdminLogins" EntityType="Office_AttendanceModel.AdminLogin" />
+          <EntitySet Name="Attendence_Master" EntityType="Office_AttendanceModel.Attendence_Master" />
         </EntityContainer>
         <EntityType Name="AdminLogin">
           <Key>
@@ -175,23 +165,22 @@
           <Property Name="LastLogin" Type="DateTime" Precision="3" />
           <Property Name="UserPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="Attendence_Master">
+          <Key>
+            <PropertyRef Name="Attendence_Id" />
+          </Key>
+          <Property Name="Attendence_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Attendence_Date" Type="DateTime" Precision="0" />
+          <Property Name="Cheack_In_Time" Type="Time" Precision="7" />
+          <Property Name="Cheack_Out_Time" Type="Time" Precision="7" />
+          <Property Name="EMP_Id" Type="Int32" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="Office_AttendanceModelStoreContainer" CdmEntityContainer="Office_AttendanceEntities">
-          <EntitySetMapping Name="Attendence_Master">
-            <EntityTypeMapping TypeName="Office_AttendanceModel.Attendence_Master">
-              <MappingFragment StoreEntitySet="Attendence_Master">
-                <ScalarProperty Name="Attendence_Id" ColumnName="Attendence_Id" />
-                <ScalarProperty Name="Attendence_Date" ColumnName="Attendence_Date" />
-                <ScalarProperty Name="Cheack_In_Time" ColumnName="Cheack_In_Time" />
-                <ScalarProperty Name="Cheack_Out_Time" ColumnName="Cheack_Out_Time" />
-                <ScalarProperty Name="EMP_Id" ColumnName="EMP_Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Employee_Master">
             <EntityTypeMapping TypeName="Office_AttendanceModel.Employee_Master">
               <MappingFragment StoreEntitySet="Employee_Master">
@@ -242,6 +231,17 @@
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Attendence_Master">
+            <EntityTypeMapping TypeName="Office_AttendanceModel.Attendence_Master">
+              <MappingFragment StoreEntitySet="Attendence_Master">
+                <ScalarProperty Name="EMP_Id" ColumnName="EMP_Id" />
+                <ScalarProperty Name="Cheack_Out_Time" ColumnName="Cheack_Out_Time" />
+                <ScalarProperty Name="Cheack_In_Time" ColumnName="Cheack_In_Time" />
+                <ScalarProperty Name="Attendence_Date" ColumnName="Attendence_Date" />
+                <ScalarProperty Name="Attendence_Id" ColumnName="Attendence_Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
