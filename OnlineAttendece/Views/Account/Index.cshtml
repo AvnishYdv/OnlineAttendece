@@ -20,10 +20,11 @@
                     <div class="login-right-wrap">
                         <h1>Login</h1>
                         <p class="account-subtitle">Access to our dashboard</p>
+                        <div id="error-message" class="error-message text-center ">@Html.ValidationSummary(false, "", new { @class = "text-danger" })</div>
                         <form action="Login" method="post" name="login">
                             <div class="pass-group">
                                 <label for="exampleInputUserId" class="form-control-label">User Id</label>
-                                <input type="text" name="UserId" class="form-control" id="UserId" aria-describedby="UserIdHelp" placeholder="Enter User Id" required />
+                                <input type="text" name="UserId" class="form-control" id="userId" aria-describedby="UserIdHelp" placeholder="Enter User Id" required />
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword" class="form-control-label">Password</label>
@@ -41,7 +42,7 @@
                                         </div>
                                     </div>
                                     <div class="col-6 text-right">
-                                        <a class="forgot-link" href="forgot-password.html">Forgot Password ?</a>
+                                        <a class="forgot-link" href="@Url.Action("ForgetPassword","Account")">Forgot Password ?</a>
                                     </div>
                                 </div>
                             </div>
@@ -64,16 +65,17 @@
         </div>
     </div>
     <script>
-        function hideErrorMessage() {
-            $('#error-message').html('');
-        }
-        $('#loginForm').submit(function (event) {
-            event.preventDefault();
-            hideErrorMessage();
-        });
-        $('#userId, #password').focus(function () {
-            hideErrorMessage();
-        });
+    function hideErrorMessage() {
+        $('#error-message').html('');
+    }
+    $('#loginForm').submit(function (event) {
+        event.preventDefault();
+        hideErrorMessage();
+    });
+    $('#userId, #password').focus(function () {
+        hideErrorMessage();
+    });
+
     </script>
     <script src="~/Content/assets/js/jquery-3.5.1.min.js"></script>
     <script src="~/Content/assets/js/popper.min.js"></script>

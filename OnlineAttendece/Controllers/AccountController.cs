@@ -32,9 +32,24 @@ namespace OnlineAttendece.Controllers
                 return View("Index");
             }
         }
-            public ActionResult AdminLogin()
+        public ActionResult AdminLogin()
         {
             return View();
         }
+   
+            public ActionResult ForgetPassword()
+            {
+                // Display a view for entering the user ID
+                return View();
+            }
+
+        public ActionResult ResetPassword()
+        {
+            // Display a view for entering the user ID
+            return View();
+        }
     }
-}
+
+    }
+    
+

@@ -7473,8 +7473,9 @@
     <Content Include="Views\Home\HolidayReport.cshtml" />
     <Content Include="Views\Home\WorkingdayReport.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
-    <Content Include="Views\Home\Chart.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Account\ForgetPassword.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
