@@ -21,5 +21,6 @@ namespace OnlineAttendece.ADODBFIle
         public string RoleId { get; set; }
         public Nullable<System.DateTime> LastLogin { get; set; }
         public string UserPassword { get; set; }
+        public string UserEmail { get; set; }
     }
 }

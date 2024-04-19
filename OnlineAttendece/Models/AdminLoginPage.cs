@@ -16,7 +16,9 @@ namespace OnlineAttendece.Models
         public string RoleId { get; set; }
         public DateTime? LastLogin { get; set; }
         [Required]
-        public string UserPassword { get; set; }
+        [DataType(DataType.Password)]
+        public string UserEmail { get; set; }
+
 
     }
 }

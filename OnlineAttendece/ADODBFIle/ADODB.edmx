@@ -16,6 +16,7 @@
           <Property Name="RoleId" Type="varchar" MaxLength="50" />
           <Property Name="LastLogin" Type="datetime" />
           <Property Name="UserPassword" Type="varchar" MaxLength="50" />
+          <Property Name="UserEmail" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Attendence_Master">
           <Key>
@@ -150,9 +151,19 @@
             <End Role="Working_day_Master" EntitySet="Working_day_Master" />
             <End Role="Working_day_Master1" EntitySet="Working_day_Master" />
           </AssociationSet>
-          <EntitySet Name="AdminLogins" EntityType="Office_AttendanceModel.AdminLogin" />
           <EntitySet Name="Attendence_Master" EntityType="Office_AttendanceModel.Attendence_Master" />
+          <EntitySet Name="AdminLogins" EntityType="Office_AttendanceModel.AdminLogin" />
         </EntityContainer>
+        <EntityType Name="Attendence_Master">
+          <Key>
+            <PropertyRef Name="Attendence_Id" />
+          </Key>
+          <Property Name="Attendence_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Attendence_Date" Type="DateTime" Precision="0" />
+          <Property Name="Cheack_In_Time" Type="Time" Precision="7" />
+          <Property Name="Cheack_Out_Time" Type="Time" Precision="7" />
+          <Property Name="EMP_Id" Type="Int32" />
+        </EntityType>
         <EntityType Name="AdminLogin">
           <Key>
             <PropertyRef Name="Id" />
@@ -164,16 +175,7 @@
           <Property Name="RoleId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="LastLogin" Type="DateTime" Precision="3" />
           <Property Name="UserPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="Attendence_Master">
-          <Key>
-            <PropertyRef Name="Attendence_Id" />
-          </Key>
-          <Property Name="Attendence_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Attendence_Date" Type="DateTime" Precision="0" />
-          <Property Name="Cheack_In_Time" Type="Time" Precision="7" />
-          <Property Name="Cheack_Out_Time" Type="Time" Precision="7" />
-          <Property Name="EMP_Id" Type="Int32" />
+          <Property Name="UserEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -221,19 +223,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="AdminLogins">
-            <EntityTypeMapping TypeName="Office_AttendanceModel.AdminLogin">
-              <MappingFragment StoreEntitySet="AdminLogin">
-                <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
-                <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
-                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Attendence_Master">
             <EntityTypeMapping TypeName="Office_AttendanceModel.Attendence_Master">
               <MappingFragment StoreEntitySet="Attendence_Master">
@@ -242,6 +231,20 @@
                 <ScalarProperty Name="Cheack_In_Time" ColumnName="Cheack_In_Time" />
                 <ScalarProperty Name="Attendence_Date" ColumnName="Attendence_Date" />
                 <ScalarProperty Name="Attendence_Id" ColumnName="Attendence_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AdminLogins">
+            <EntityTypeMapping TypeName="Office_AttendanceModel.AdminLogin">
+              <MappingFragment StoreEntitySet="AdminLogin">
+                <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
+                <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+                <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

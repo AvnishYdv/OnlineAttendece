@@ -74,6 +74,8 @@ namespace OnlineAttendece.Controllers
             db.SaveChanges();
             return RedirectToAction("Employee");
         }
+
+
         [HttpGet]
         public JsonResult EmployeeList()
         {
@@ -93,6 +95,26 @@ namespace OnlineAttendece.Controllers
             }
             return Json(EmpMod, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult DeleteEmployee(int id)
+        {
+            try
+            {
+                var employeeToDelete = db.Employee_Master.Find(id);
+                if (employeeToDelete != null)
+                {
+                    db.Employee_Master.Remove(employeeToDelete);
+                    db.SaveChanges();
+                }
+                return RedirectToAction("Employee");
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "An error occurred while deleting the attendance data.");
+                return RedirectToAction("Employee");
+            }
+        }
+
         [HttpGet]
         public ActionResult Office()
         {
@@ -206,6 +228,7 @@ namespace OnlineAttendece.Controllers
             }
             return View("Attendence", attendence);
         }
+
         [HttpGet]
         public ActionResult Holiday()
         {

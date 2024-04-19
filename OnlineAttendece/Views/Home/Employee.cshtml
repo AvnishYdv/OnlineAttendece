@@ -80,6 +80,9 @@
                     </div>
                 </div>
             </form>
+            <form id="deleteForm" action="@Url.Action("DeleteEmployee", "Home")" method="post">
+                <input type="hidden" name="id" id="EMP_Id" value="" />
+            </form>
             <div class="col-xl-12 col-sm-12 col-12 mb-4">
                 <div class="card">
                     <div class="card-header">
@@ -105,11 +108,11 @@
                                         <td>@EMPList.Office_Name</td>
                                         <td>
                                             <label>
-                                                <a class="action_label5" href="@Url.Action("Edit", "Home", new { id = EMPList.EMP_Id })">Edit<i data-feather="edit"></i></a> 
-                                                </label>
+                                                <a class="action_label5" href="@Url.Action("Edit", "Home", new { id = EMPList.EMP_Id })">Edit<i data-feather="edit"></i></a>
+                                            </label>
                                             <label>
-                                                <a class="action_label4" href="@Url.Action("Delete", "Home", new { id = EMPList.EMP_Id })">Delete<i data-feather="trash-2"></i></a>
-                                                </label>
+                                                <a class="action_label4" href="@Url.Action("DeleteEmployee", "Home", new { id = EMPList.EMP_Id })" onclick="DeleteEmployee(@EMPList.EMP_Id)">Delete<i data-feather="trash-2"></i></a>
+                                            </label>
                                         </td>
                                     </tr>
                                 }
@@ -135,4 +138,12 @@
             });
         });
     });
+            function DeleteEmployee(EMP_Id) {
+        if (confirm('Are you sure you want to delete this employee record?')) {
+                // If user clicks OK, submit the form
+                document.getElementById("EMP_Id").value = EMP_Id;
+            document.getElementById("deleteForm").submit();
+        } 
+        
+    }
 </script>

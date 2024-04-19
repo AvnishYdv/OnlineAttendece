@@ -40,11 +40,11 @@
                             <div class="card-body">
                                 <div class="row">
                                     @*<div class="col-xl-6 col-sm-12 col-12" style="display:none;">
-                                        <div class="form-group">
-                                            <label asp-for="Attendence_Id">EMP Id:</label>
-                                            <input asp-for="Attendence_Id" class="form-control" id="Attendence_Id" name="Attendence_Id" />
-                                        </div>
-                                    </div>*@
+                                    <div class="form-group">
+                                        <label asp-for="Attendence_Id">EMP Id:</label>
+                                        <input asp-for="Attendence_Id" class="form-control" id="Attendence_Id" name="Attendence_Id" />
+                                    </div>
+                                </div>*@
                                     <div class="col-sm-6 form-group">
                                         <label class="col-form-label">Attendence Date:</label>
                                         <input type="date" class="form-control" name="Attendence_Date" />
@@ -111,7 +111,7 @@
                                             <td>@Attendance.EMP_Name</td>
                                             <td>
                                                 <label>
-                                                    <a class="action_label5" href="@Url.Action("Edit", "Home", new { id = Attendance.Attendence_Id })">Edit<i data-feather="edit"></i></a>
+                                                    <a class="action_label5" href="@Url.Action("UpdateAttendance", "Home", new { id = Attendance.Attendence_Id })">Edit<i data-feather="edit"></i></a>
                                                 </label>
                                                 <label>
                                                     <a class="action_label4" href="@Url.Action("DeleteAttendance", "Home", new { id = Attendance.Attendence_Id })" onclick="deleteAttendance(@Attendance.Attendence_Id)">Delete<i data-feather="trash-2"></i></a>
