@@ -1,4 +1,5 @@
-﻿using OnlineAttendece.ADODBFIle;
+﻿using OfficeOpenXml;
+using OnlineAttendece.ADODBFIle;
 using OnlineAttendece.Models;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using Xceed.Words.NET; // For Word
+using System.IO;
+using System.Data.Entity;
+
 
 namespace OnlineAttendece.Controllers
 {
@@ -457,5 +462,50 @@ namespace OnlineAttendece.Controllers
             return RedirectToAction("Index", "Account");
         }
 
-    }
+		public FileResult DownloadExcel()
+		{
+			List<WorkingDay> workdays = new List<WorkingDay>();
+			var WorkVar = db.Working_day_Master.ToList();
+			foreach (var workloop in WorkVar)
+			{
+				workdays.Add(new WorkingDay
+				{
+					Working_Day_Id = workloop.Working_Day_Id,
+					Day_Of_Week = workloop.Day_Of_Week,
+					Start_Time = workloop.Start_Time,
+					End_Time = (DateTime)workloop.End_Time,
+				});
+			}
+
+			// Generate Excel file
+			using (var excelPackage = new ExcelPackage())
+			{
+				var worksheet = excelPackage.Workbook.Worksheets.Add("Working Day Report");
+
+				// Add headers
+				worksheet.Cells[1, 1].Value = "Working Day ID";
+				worksheet.Cells[1, 2].Value = "Day Of Week";
+				worksheet.Cells[1, 3].Value = "Start Time";
+				worksheet.Cells[1, 4].Value = "End Time";
+
+				// Add data
+				int row = 2;
+				foreach (var day in workdays)
+				{
+					worksheet.Cells[row, 1].Value = day.Working_Day_Id;
+					worksheet.Cells[row, 2].Value = day.Day_Of_Week;
+					worksheet.Cells[row, 3].Value = day.Start_Time?.ToString(@"hh\:mm");
+					worksheet.Cells[row, 4].Value = day.End_Time?.ToString(@"hh\:mm");
+					row++;
+				}
+
+				// Convert to byte array
+				byte[] excelBytes = excelPackage.GetAsByteArray();
+
+				// Return Excel file
+				return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "WorkingDayReport.xlsx");
+			}
+		}
+
+	}
 }
