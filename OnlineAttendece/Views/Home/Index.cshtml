@@ -10,7 +10,8 @@
     <div class="content container-fluid">
         <div class="page-name 	mb-4">
             <h4 class="m-0"><img src="~/Content/assets/img/profile.jpg" class="mr-1" alt="profile" /> Welcome @Session["UserName"].ToString()</h4>
-            <label>@DateTime.Now.Date @DateTime.Now.DayOfWeek</label>
+            <label>@DateTime.Now.ToString("dd MMMM yyyy") @DateTime.Now.DayOfWeek</label>
+
         </div>
         <div class="row mb-4">
             <div class="col-xl-6 col-sm-12 col-12">

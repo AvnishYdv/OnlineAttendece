@@ -119,40 +119,17 @@
           <Property Name="Location" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Cantact_Info" Type="Decimal" Precision="18" Scale="0" />
         </EntityType>
-        <EntityType Name="Working_day_Master">
-          <Key>
-            <PropertyRef Name="Working_Day_Id" />
-          </Key>
-          <Property Name="Working_Day_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Day_Of_Week" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Start_Time" Type="DateTime" Precision="3" />
-          <Property Name="End_Time" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Working_day_Master1" Relationship="Self.FK_Working_day_Master_Working_day_Master" FromRole="Working_day_Master" ToRole="Working_day_Master1" />
-          <NavigationProperty Name="Working_day_Master2" Relationship="Self.FK_Working_day_Master_Working_day_Master" FromRole="Working_day_Master1" ToRole="Working_day_Master" />
-        </EntityType>
-        <Association Name="FK_Working_day_Master_Working_day_Master">
-          <End Role="Working_day_Master" Type="Self.Working_day_Master" Multiplicity="1" />
-          <End Role="Working_day_Master1" Type="Self.Working_day_Master" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Working_day_Master">
-              <PropertyRef Name="Working_Day_Id" />
-            </Principal>
-            <Dependent Role="Working_day_Master1">
-              <PropertyRef Name="Working_Day_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="Office_AttendanceEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Employee_Master" EntityType="Self.Employee_Master" />
           <EntitySet Name="Holiday_Master" EntityType="Self.Holiday_Master" />
           <EntitySet Name="Office_Master" EntityType="Self.Office_Master" />
-          <EntitySet Name="Working_day_Master" EntityType="Self.Working_day_Master" />
-          <AssociationSet Name="FK_Working_day_Master_Working_day_Master" Association="Self.FK_Working_day_Master_Working_day_Master">
+          <EntitySet Name="Attendence_Master" EntityType="Office_AttendanceModel.Attendence_Master" />
+          <EntitySet Name="AdminLogins" EntityType="Office_AttendanceModel.AdminLogin" />
+          <EntitySet Name="Working_day_Master" EntityType="Office_AttendanceModel.Working_day_Master" />
+          <AssociationSet Name="FK_Working_day_Master_Working_day_Master" Association="Office_AttendanceModel.FK_Working_day_Master_Working_day_Master">
             <End Role="Working_day_Master" EntitySet="Working_day_Master" />
             <End Role="Working_day_Master1" EntitySet="Working_day_Master" />
           </AssociationSet>
-          <EntitySet Name="Attendence_Master" EntityType="Office_AttendanceModel.Attendence_Master" />
-          <EntitySet Name="AdminLogins" EntityType="Office_AttendanceModel.AdminLogin" />
         </EntityContainer>
         <EntityType Name="Attendence_Master">
           <Key>
@@ -177,6 +154,29 @@
           <Property Name="UserPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="UserEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="Working_day_Master">
+          <Key>
+            <PropertyRef Name="Working_Day_Id" />
+          </Key>
+          <Property Name="Working_Day_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Day_Of_Week" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Start_Time" Type="DateTime" Precision="3" />
+          <Property Name="End_Time" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Working_day_Master1" Relationship="Office_AttendanceModel.FK_Working_day_Master_Working_day_Master" FromRole="Working_day_Master" ToRole="Working_day_Master1" />
+          <NavigationProperty Name="Working_day_Master2" Relationship="Office_AttendanceModel.FK_Working_day_Master_Working_day_Master" FromRole="Working_day_Master1" ToRole="Working_day_Master" />
+        </EntityType>
+        <Association Name="FK_Working_day_Master_Working_day_Master">
+          <End Type="Office_AttendanceModel.Working_day_Master" Role="Working_day_Master" Multiplicity="1" />
+          <End Type="Office_AttendanceModel.Working_day_Master" Role="Working_day_Master1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Working_day_Master">
+              <PropertyRef Name="Working_Day_Id" />
+            </Principal>
+            <Dependent Role="Working_day_Master1">
+              <PropertyRef Name="Working_Day_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -213,16 +213,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Working_day_Master">
-            <EntityTypeMapping TypeName="Office_AttendanceModel.Working_day_Master">
-              <MappingFragment StoreEntitySet="Working_day_Master">
-                <ScalarProperty Name="Working_Day_Id" ColumnName="Working_Day_Id" />
-                <ScalarProperty Name="Day_Of_Week" ColumnName="Day_Of_Week" />
-                <ScalarProperty Name="Start_Time" ColumnName="Start_Time" />
-                <ScalarProperty Name="End_Time" ColumnName="End_Time" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Attendence_Master">
             <EntityTypeMapping TypeName="Office_AttendanceModel.Attendence_Master">
               <MappingFragment StoreEntitySet="Attendence_Master">
@@ -245,6 +235,16 @@
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Working_day_Master">
+            <EntityTypeMapping TypeName="Office_AttendanceModel.Working_day_Master">
+              <MappingFragment StoreEntitySet="Working_day_Master">
+                <ScalarProperty Name="End_Time" ColumnName="End_Time" />
+                <ScalarProperty Name="Start_Time" ColumnName="Start_Time" />
+                <ScalarProperty Name="Day_Of_Week" ColumnName="Day_Of_Week" />
+                <ScalarProperty Name="Working_Day_Id" ColumnName="Working_Day_Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

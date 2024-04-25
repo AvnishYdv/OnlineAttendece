@@ -1,4 +1,5 @@
-﻿using OnlineAttendece.ADODBFIle;
+﻿using OfficeOpenXml;
+using OnlineAttendece.ADODBFIle;
 using OnlineAttendece.Models;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using Xceed.Words.NET; // For Word
+using System.IO;
+using System.Data.Entity;
+using Xceed.Document.NET;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+
 
 namespace OnlineAttendece.Controllers
 {
@@ -457,5 +465,99 @@ namespace OnlineAttendece.Controllers
             return RedirectToAction("Index", "Account");
         }
 
+		public FileResult DownloadExcel()
+		{
+			List<WorkingDay> workdays = new List<WorkingDay>();
+			var WorkVar = db.Working_day_Master.ToList();
+			foreach (var workloop in WorkVar)
+			{
+				workdays.Add(new WorkingDay
+				{
+					Working_Day_Id = workloop.Working_Day_Id,
+					Day_Of_Week = workloop.Day_Of_Week,
+					Start_Time = workloop.Start_Time,
+					End_Time = (DateTime)workloop.End_Time,
+				});
+			}
+
+			// Generate Excel file
+			using (var excelPackage = new ExcelPackage())
+			{
+				var worksheet = excelPackage.Workbook.Worksheets.Add("Working Day Report");
+
+				// Add headers
+				worksheet.Cells[1, 1].Value = "Working Day ID";
+				worksheet.Cells[1, 2].Value = "Day Of Week";
+				worksheet.Cells[1, 3].Value = "Start Time";
+				worksheet.Cells[1, 4].Value = "End Time";
+
+				// Add data
+				int row = 2;
+				foreach (var day in workdays)
+				{
+					worksheet.Cells[row, 1].Value = day.Working_Day_Id;
+					worksheet.Cells[row, 2].Value = day.Day_Of_Week;
+					worksheet.Cells[row, 3].Value = day.Start_Time?.ToString(@"hh\:mm");
+					worksheet.Cells[row, 4].Value = day.End_Time?.ToString(@"hh\:mm");
+					row++;
+				}
+
+				// Convert to byte array
+				byte[] excelBytes = excelPackage.GetAsByteArray();
+
+				// Return Excel file
+				return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "WorkingDayReport.xlsx");
+			}
+		}
+
+
+        public ActionResult DownloadPDF()
+        {
+            List<WorkingDay> workdays = new List<WorkingDay>();
+            var WorkVar = db.Working_day_Master.ToList();
+            foreach (var workloop in WorkVar)
+            {
+                workdays.Add(new WorkingDay
+                {
+                    Working_Day_Id = workloop.Working_Day_Id,
+                    Day_Of_Week = workloop.Day_Of_Week,
+                    Start_Time = workloop.Start_Time,
+                    End_Time = (DateTime)workloop.End_Time,
+                });
+            }
+
+            // Generate PDF file
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                iTextSharp.text.Document document = new iTextSharp.text.Document();
+                PdfWriter writer = PdfWriter.GetInstance(document, memoryStream);
+                document.Open();
+
+                // Add headers
+                PdfPTable table = new PdfPTable(4);
+                table.AddCell("Working Day ID");
+                table.AddCell("Day Of Week");
+                table.AddCell("Start Time");
+                table.AddCell("End Time");
+
+                // Add data
+                foreach (var day in workdays)
+                {
+                    table.AddCell(day.Working_Day_Id.ToString());
+                    table.AddCell(day.Day_Of_Week);
+                    table.AddCell(day.Start_Time?.ToString(@"hh\:mm"));
+                    table.AddCell(day.End_Time?.ToString(@"hh\:mm"));
+                }
+
+                document.Add(table);
+                document.Close();
+
+                // Convert to byte array
+                byte[] pdfBytes = memoryStream.ToArray();
+
+                // Return PDF file
+                return File(pdfBytes, "application/pdf", "WorkingDayReport.pdf");
+            }
+        }
     }
 }
