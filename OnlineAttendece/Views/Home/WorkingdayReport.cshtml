@@ -71,9 +71,12 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-12 mt-4">
+            <div class="row justify-content-center">
+                <div class="col-md-6 mt-4 text-center">
                     <button class="btn btn-apply w-auto" onclick="downloadExcel()">Download Excel</button>
+                </div>
+                <div class="col-md-6 mt-4 text-center">
+                    <button class="btn btn-apply w-auto" onclick="downloadPDF()">Download PDF</button>
                 </div>
             </div>
         </div>
@@ -81,10 +84,16 @@
 </div>
 @*Old Data *@
 <a id="downloadLink" href="@Url.Action("DownloadExcel", "Home")" style="display:none;">Download Excel</a>
+<a id="downloadPDFLink" href="@Url.Action("DownloadPDF", "Home")" style="display:none;">Download Excel</a>
+
 <script>
     // Function to trigger download when button is clicked
     function downloadExcel() {
         // Simulate clicking on the download link
         document.getElementById("downloadLink").click();
+    };
+    function downloadPDF() {
+        // Simulate clicking on the download link for PDF
+        document.getElementById("downloadPDFLink").click();
     }
 </script>

@@ -10,6 +10,9 @@ using System.Web.Security;
 using Xceed.Words.NET; // For Word
 using System.IO;
 using System.Data.Entity;
+using Xceed.Document.NET;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 
 
 namespace OnlineAttendece.Controllers
@@ -507,5 +510,54 @@ namespace OnlineAttendece.Controllers
 			}
 		}
 
-	}
+
+        public ActionResult DownloadPDF()
+        {
+            List<WorkingDay> workdays = new List<WorkingDay>();
+            var WorkVar = db.Working_day_Master.ToList();
+            foreach (var workloop in WorkVar)
+            {
+                workdays.Add(new WorkingDay
+                {
+                    Working_Day_Id = workloop.Working_Day_Id,
+                    Day_Of_Week = workloop.Day_Of_Week,
+                    Start_Time = workloop.Start_Time,
+                    End_Time = (DateTime)workloop.End_Time,
+                });
+            }
+
+            // Generate PDF file
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                iTextSharp.text.Document document = new iTextSharp.text.Document();
+                PdfWriter writer = PdfWriter.GetInstance(document, memoryStream);
+                document.Open();
+
+                // Add headers
+                PdfPTable table = new PdfPTable(4);
+                table.AddCell("Working Day ID");
+                table.AddCell("Day Of Week");
+                table.AddCell("Start Time");
+                table.AddCell("End Time");
+
+                // Add data
+                foreach (var day in workdays)
+                {
+                    table.AddCell(day.Working_Day_Id.ToString());
+                    table.AddCell(day.Day_Of_Week);
+                    table.AddCell(day.Start_Time?.ToString(@"hh\:mm"));
+                    table.AddCell(day.End_Time?.ToString(@"hh\:mm"));
+                }
+
+                document.Add(table);
+                document.Close();
+
+                // Convert to byte array
+                byte[] pdfBytes = memoryStream.ToArray();
+
+                // Return PDF file
+                return File(pdfBytes, "application/pdf", "WorkingDayReport.pdf");
+            }
+        }
+    }
 }
