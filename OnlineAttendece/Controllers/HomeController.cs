@@ -25,22 +25,6 @@ namespace OnlineAttendece.Controllers
         {
             return View();
         }
-        public ActionResult Chart()
-        {
-            List<Attendence> AttreoList = new List<Attendence>();
-            var attendanceData = db.Attendence_Master.ToList();
-            foreach (var AttLoop in attendanceData)
-            {
-                AttreoList.Add(new Attendence
-                {
-                    Attendence_Id = AttLoop.Attendence_Id,
-                    Attendence_Date = (DateTime)AttLoop.Attendence_Date,
-                    Cheack_In_Time = (TimeSpan)AttLoop.Cheack_In_Time,
-                    Cheack_Out_Time = (TimeSpan)AttLoop.Cheack_In_Time
-                });
-            }
-            return View(AttreoList);
-        }
 
         [HttpGet]
         public ActionResult Employee()
@@ -82,7 +66,6 @@ namespace OnlineAttendece.Controllers
             db.SaveChanges();
             return RedirectToAction("Employee");
         }
-
 
         [HttpGet]
         public JsonResult EmployeeList()
@@ -339,7 +322,6 @@ namespace OnlineAttendece.Controllers
             }
         }
 
-
         // All Master Report  here
 
         public ActionResult EmployeeReport()
@@ -510,7 +492,6 @@ namespace OnlineAttendece.Controllers
 			}
 		}
 
-
         public ActionResult DownloadPDF()
         {
             List<WorkingDay> workdays = new List<WorkingDay>();
@@ -526,7 +507,6 @@ namespace OnlineAttendece.Controllers
                 });
             }
 
-            // Generate PDF file
             using (MemoryStream memoryStream = new MemoryStream())
             {
                 iTextSharp.text.Document document = new iTextSharp.text.Document();
