@@ -12,11 +12,8 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserId" Type="varchar" MaxLength="50" />
           <Property Name="UserName" Type="varchar" MaxLength="50" />
-          <Property Name="MobileNumber" Type="int" />
-          <Property Name="RoleId" Type="varchar" MaxLength="50" />
-          <Property Name="LastLogin" Type="datetime" />
           <Property Name="UserPassword" Type="varchar" MaxLength="50" />
-          <Property Name="UserEmail" Type="varchar" MaxLength="50" />
+          <Property Name="LastLogin" Type="datetime" />
         </EntityType>
         <EntityType Name="Attendence_Master">
           <Key>
@@ -55,6 +52,18 @@
           <Property Name="Location" Type="varchar" MaxLength="100" />
           <Property Name="Cantact_Info" Type="numeric" Precision="18" Scale="0" />
         </EntityType>
+        <EntityType Name="Registration">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="varchar" MaxLength="50" />
+          <Property Name="UserName" Type="varchar" MaxLength="50" />
+          <Property Name="MobileNumber" Type="varchar" MaxLength="50" />
+          <Property Name="RoleId" Type="varchar" MaxLength="50" />
+          <Property Name="UserPassword" Type="varchar" MaxLength="50" />
+          <Property Name="UserEmail" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Working_day_Master">
           <Key>
             <PropertyRef Name="Working_Day_Id" />
@@ -82,6 +91,7 @@
           <EntitySet Name="Employee_Master" EntityType="Self.Employee_Master" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Holiday_Master" EntityType="Self.Holiday_Master" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Office_Master" EntityType="Self.Office_Master" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Registration" EntityType="Self.Registration" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Working_day_Master" EntityType="Self.Working_day_Master" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Working_day_Master_Working_day_Master" Association="Self.FK_Working_day_Master_Working_day_Master">
             <End Role="Working_day_Master" EntitySet="Working_day_Master" />
@@ -124,12 +134,13 @@
           <EntitySet Name="Holiday_Master" EntityType="Self.Holiday_Master" />
           <EntitySet Name="Office_Master" EntityType="Self.Office_Master" />
           <EntitySet Name="Attendence_Master" EntityType="Office_AttendanceModel.Attendence_Master" />
-          <EntitySet Name="AdminLogins" EntityType="Office_AttendanceModel.AdminLogin" />
           <EntitySet Name="Working_day_Master" EntityType="Office_AttendanceModel.Working_day_Master" />
           <AssociationSet Name="FK_Working_day_Master_Working_day_Master" Association="Office_AttendanceModel.FK_Working_day_Master_Working_day_Master">
             <End Role="Working_day_Master" EntitySet="Working_day_Master" />
             <End Role="Working_day_Master1" EntitySet="Working_day_Master" />
           </AssociationSet>
+          <EntitySet Name="Registrations" EntityType="Office_AttendanceModel.Registration" />
+          <EntitySet Name="AdminLogins" EntityType="Office_AttendanceModel.AdminLogin" />
         </EntityContainer>
         <EntityType Name="Attendence_Master">
           <Key>
@@ -140,19 +151,6 @@
           <Property Name="Cheack_In_Time" Type="Time" Precision="7" />
           <Property Name="Cheack_Out_Time" Type="Time" Precision="7" />
           <Property Name="EMP_Id" Type="Int32" />
-        </EntityType>
-        <EntityType Name="AdminLogin">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="MobileNumber" Type="Int32" />
-          <Property Name="RoleId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="LastLogin" Type="DateTime" Precision="3" />
-          <Property Name="UserPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="UserEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Working_day_Master">
           <Key>
@@ -177,6 +175,28 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Registration">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MobileNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RoleId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="AdminLogin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastLogin" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -224,12 +244,21 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="AdminLogins">
-            <EntityTypeMapping TypeName="Office_AttendanceModel.AdminLogin">
-              <MappingFragment StoreEntitySet="AdminLogin">
+          <EntitySetMapping Name="Working_day_Master">
+            <EntityTypeMapping TypeName="Office_AttendanceModel.Working_day_Master">
+              <MappingFragment StoreEntitySet="Working_day_Master">
+                <ScalarProperty Name="End_Time" ColumnName="End_Time" />
+                <ScalarProperty Name="Start_Time" ColumnName="Start_Time" />
+                <ScalarProperty Name="Day_Of_Week" ColumnName="Day_Of_Week" />
+                <ScalarProperty Name="Working_Day_Id" ColumnName="Working_Day_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Registrations">
+            <EntityTypeMapping TypeName="Office_AttendanceModel.Registration">
+              <MappingFragment StoreEntitySet="Registration">
                 <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
                 <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
-                <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
                 <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
@@ -238,13 +267,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Working_day_Master">
-            <EntityTypeMapping TypeName="Office_AttendanceModel.Working_day_Master">
-              <MappingFragment StoreEntitySet="Working_day_Master">
-                <ScalarProperty Name="End_Time" ColumnName="End_Time" />
-                <ScalarProperty Name="Start_Time" ColumnName="Start_Time" />
-                <ScalarProperty Name="Day_Of_Week" ColumnName="Day_Of_Week" />
-                <ScalarProperty Name="Working_Day_Id" ColumnName="Working_Day_Id" />
+          <EntitySetMapping Name="AdminLogins">
+            <EntityTypeMapping TypeName="Office_AttendanceModel.AdminLogin">
+              <MappingFragment StoreEntitySet="AdminLogin">
+                <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
+                <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

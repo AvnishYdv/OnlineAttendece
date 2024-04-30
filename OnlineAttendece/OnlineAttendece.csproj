@@ -188,6 +188,9 @@
     <Compile Include="ADODBFIle\Office_Master.cs">
       <DependentUpon>ADODB.tt</DependentUpon>
     </Compile>
+    <Compile Include="ADODBFIle\Registration.cs">
+      <DependentUpon>ADODB.tt</DependentUpon>
+    </Compile>
     <Compile Include="ADODBFIle\Working_day_Master.cs">
       <DependentUpon>ADODB.tt</DependentUpon>
     </Compile>
@@ -204,6 +207,7 @@
     <Compile Include="Models\Holiday.cs" />
     <Compile Include="Models\Office.cs" />
     <Compile Include="Models\AdminLoginPage.cs" />
+    <Compile Include="Models\Regeister.cs" />
     <Compile Include="Models\WorkingDay.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -7508,6 +7512,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\ForgetPassword.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

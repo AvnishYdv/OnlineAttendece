@@ -504,7 +504,7 @@ namespace OnlineAttendece.Controllers
                     Day_Of_Week = workloop.Day_Of_Week,
                     Start_Time = workloop.Start_Time,
                     End_Time = (DateTime)workloop.End_Time,
-                });
+                }); 
             }
 
             using (MemoryStream memoryStream = new MemoryStream())

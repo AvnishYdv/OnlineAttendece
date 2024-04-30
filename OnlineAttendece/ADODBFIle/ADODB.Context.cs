@@ -29,7 +29,8 @@ namespace OnlineAttendece.ADODBFIle
         public virtual DbSet<Holiday_Master> Holiday_Master { get; set; }
         public virtual DbSet<Office_Master> Office_Master { get; set; }
         public virtual DbSet<Attendence_Master> Attendence_Master { get; set; }
-        public virtual DbSet<AdminLogin> AdminLogins { get; set; }
         public virtual DbSet<Working_day_Master> Working_day_Master { get; set; }
+        public virtual DbSet<Registration> Registrations { get; set; }
+        public virtual DbSet<AdminLogin> AdminLogins { get; set; }
     }
 }
