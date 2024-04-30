@@ -13,7 +13,7 @@ The Online Attendance Web App is a web-based application built using ASP.NET MVC
 ## Getting Started
 
 1. **Clone the Repository**: Clone the repository to your local machine.
-   git clone https://github.com/AvnishYdv/onlineAttendence.git
+   git clone https://github.com/AvnishYdv/OnlineAttendece
 Setup: Install dependencies and configure the environment.
 
 cd online-attendance-webapp
