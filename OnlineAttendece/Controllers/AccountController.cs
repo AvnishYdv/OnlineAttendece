@@ -10,7 +10,7 @@ namespace OnlineAttendece.Controllers
 {
     public class AccountController : Controller
     {
-        Office_AttendanceEntities db = new Office_AttendanceEntities();
+      readonly  Office_AttendanceEntities db = new Office_AttendanceEntities();
         public ActionResult Index()
         {
 
@@ -72,22 +72,33 @@ namespace OnlineAttendece.Controllers
                 UserPassword = regeister.UserPassword
             };
 
-            // Add to Login table
             db.AdminLogins.Add(login);
             db.SaveChanges();
 
             return RedirectToAction("Register");
          }
-   
-            public ActionResult ForgetPassword()
-            {
-                // Display a view for entering the user ID
-                return View();
-            }
 
+        [HttpGet]
+        public ActionResult ForgetPassword(string email)
+        {
+            if (!string.IsNullOrEmpty(email))
+            {
+                var user = db.AdminLogins.FirstOrDefault(u => u.UserId == email);
+                if (user != null)
+                {
+                    return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Invalid email!");
+                    return Json(new { success = false, message = "Invalid email!" }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            // Return the view for the initial GET request
+            return View();
+        }
         public ActionResult ResetPassword()
         {
-            // Display a view for entering the user ID
             return View();
         }
     }

@@ -15,6 +15,8 @@ namespace OnlineAttendece.Models
         [Required]
         [DataType(DataType.Password)]
         public Nullable<System.DateTime> LastLogin { get; set; }
+        public string OTP { get; internal set; }
+
 
 
     }

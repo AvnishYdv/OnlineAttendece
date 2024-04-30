@@ -19,5 +19,6 @@ namespace OnlineAttendece.ADODBFIle
         public string UserName { get; set; }
         public string UserPassword { get; set; }
         public Nullable<System.DateTime> LastLogin { get; set; }
+        public string OTP { get; internal set; }
     }
 }

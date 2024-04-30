@@ -203,6 +203,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Attendence.cs" />
+    <Compile Include="Models\EmailService.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\Holiday.cs" />
     <Compile Include="Models\Office.cs" />
@@ -7439,6 +7440,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Views\Account\dbEmailTemplateForOTP.txt" />
     <Content Include="Content\IMG\BJHD.gif" />
     <Content Include="Content\IMG\logo1.png" />
     <Content Include="Content\IMG\logo2.svg" />
