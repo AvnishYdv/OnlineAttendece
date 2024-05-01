@@ -1,0 +1,119 @@
+﻿@model OnlineAttendece.ADODBFIle.AdminLogin
+
+@{
+    Layout = null;
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<title>Verify OTP</title>
+
+<link rel="shortcut icon" href="~/Content/assets/img/favicon.png">
+
+<link rel="stylesheet" href="~/Content/assets/css/bootstrap.min.css">
+
+<link rel="stylesheet" href="~/Content/assets/plugins/fontawesome/css/fontawesome.min.css">
+<link rel="stylesheet" href="~/Content/assets/plugins/fontawesome/css/all.min.css">
+
+<link rel="stylesheet" href="~/Content/assets/css/style.css">
+
+<style>
+    .message-container {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: rgb(225, 148, 74);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        display: none; /* Initially hidden */
+    }
+
+    .clear-link {
+        color: white;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    .msg {
+        color: forestgreen;
+    }
+</style>
+
+<div class="message-container" id="messageContainer">
+    <h4 class="msg">Reset password link sent to your email.</h4> <span class="clear-link" onclick="hideMessage()">Clear</span>
+</div>
+
+
+<div class="main-wrapper login-body">
+    <div class="login-wrapper">
+        <div class="container">
+            <img class="img-fluid logo-dark mb-2" src="~/Content/IMG/logo2.svg" alt="Logo">
+            <div class="loginbox">
+                <div class="login-right">
+                    <div class="login-right-wrap">
+                        <h1>Verify Otp?</h1>
+
+                        <form id="VerifyOtp" method="post" action="@Url.Action("VerifiyOtp", "Account")">
+                            <!-- Change form action here -->
+                            <div class="alert-danger">
+                                @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+                                {
+                                    <p class="error-message">@ViewBag.ErrorMessage</p>
+                                }
+                            </div>
+                            <div class="pass-group">
+                                <input class="form-control" id="OTP" name="OTP" placeholder="Enter Correct Otp Sended Your Email Id" />
+                            </div>
+                            <div class="col-xl-12 col-sm-12 col-12 mt-4 ">
+                                <div class="row">
+                                    <div class="col-xl-12 col-sm-12 col-12 ">
+                                        <div class="form-btn text-center">
+                                            <button type="submit" class="btn btn-apply w-auto mt-3">
+                                                Verify Otp
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Function to hide error message
+    function hideErrorMessage() {
+        var errorMessage = document.getElementById('errorMessage');
+        errorMessage.style.display = 'none';
+    }
+
+    // Event listener for input click
+    document.getElementById('OTP').addEventListener('click', hideErrorMessage);
+
+    // Function to show message if not already shown
+    function showMessage() {
+        var messageContainer = document.getElementById('messageContainer');
+        if (!sessionStorage.getItem('messageShown')) {
+            messageContainer.style.display = 'block';
+            sessionStorage.setItem('messageShown', 'true');
+            setTimeout(hideMessage, 7000); // Hide after 7 seconds
+        }
+    }
+
+    // Function to hide message
+    function hideMessage() {
+        var messageContainer = document.getElementById('messageContainer');
+        messageContainer.style.display = 'none';
+    }
+
+    // Call showMessage function when page is loaded
+    window.onload = function () {
+        showMessage();
+    };
+</script>
+

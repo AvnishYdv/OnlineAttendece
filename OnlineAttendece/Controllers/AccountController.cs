@@ -1,10 +1,13 @@
-﻿using OnlineAttendece.ADODBFIle;
+﻿using LogisticWebApiApplication.Services;
+using OnlineAttendece.ADODBFIle;
 using OnlineAttendece.Models;
 using Org.BouncyCastle.Asn1.IsisMtt.X509;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 namespace OnlineAttendece.Controllers
 {
@@ -53,14 +56,19 @@ namespace OnlineAttendece.Controllers
         [HttpPost]
         public ActionResult Registererd(Regeister regeister)
         {
+            var existingEmail = db.Registrations.Any(r => r.UserEmail == regeister.UserEmail);
+            if (existingEmail)
+            {
+                ViewBag.EmailError = "Email already exists.";
+                return View("Register");
+            }
             var Regst = new Registration
             {
-              UserId= regeister.UserEmail,
-              UserName= regeister.UserName,
+                UserId = regeister.UserEmail,
+                UserName = regeister.UserName,
                 MobileNumber = regeister.MobileNumber,
                 UserEmail = regeister.UserEmail,
-              UserPassword = regeister.UserPassword,
-
+                UserPassword = regeister.UserPassword,
             };
 
             db.Registrations.Add(Regst);
@@ -75,18 +83,24 @@ namespace OnlineAttendece.Controllers
             db.AdminLogins.Add(login);
             db.SaveChanges();
 
+            TempData["RegistrationSuccess"] = true; // Set a flag to indicate successful registration
             return RedirectToAction("Register");
-         }
+        }
+
 
         [HttpGet]
-        public ActionResult ForgetPassword(string email)
+        public async Task<ActionResult> ForgetPassword(string email)
         {
             if (!string.IsNullOrEmpty(email))
             {
                 var user = db.AdminLogins.FirstOrDefault(u => u.UserId == email);
                 if (user != null)
                 {
-                    return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+                    Session["Email"] = email;
+
+                    EmailService emailService = new EmailService();
+                  await  emailService.SendEmail(email, "Otp for Forget Password");
+                    return RedirectToAction("VerifiyOtp");
                 }
                 else
                 {
@@ -100,6 +114,52 @@ namespace OnlineAttendece.Controllers
         public ActionResult ResetPassword()
         {
             return View();
+        }
+        [HttpPost]
+        public ActionResult ResetPassword(string newPassword, string confirmPassword)
+        {
+            var email = Session["Email"]?.ToString();
+            if (newPassword != confirmPassword)
+            {
+                ViewBag.ErrorMessage = "Passwords do not match.";
+                return View();
+            }
+            var adminUser = db.AdminLogins.FirstOrDefault(u => u.UserId == email);
+            if (adminUser != null)
+            {
+                adminUser.UserPassword = newPassword;
+                db.SaveChanges();
+
+                ViewBag.SuccessMessage = "Password updated successfully.";
+
+                return View();
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "User with the provided email does not exist.";
+                return View();
+            }
+        }
+
+        public ActionResult VerifiyOtp()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> VerifiyOtp(string otp)
+        {
+            var storedOtp = Session["OTP"]?.ToString();
+
+            if (otp == storedOtp)
+            {
+               return RedirectToAction("ResetPassword");
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "Invalid OTP. Please enter the correct OTP.";
+                return View("VerifiyOtp"); 
+            }
         }
     }
 }
