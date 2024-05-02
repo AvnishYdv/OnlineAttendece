@@ -21,7 +21,21 @@ namespace OnlineAttendece.Controllers
     public class HomeController : Controller
     {
         readonly Office_AttendanceEntities db = new Office_AttendanceEntities();
+
         public ActionResult Index()
+        {
+            var employeeReportResult = EmployeeReport();
+            int totalEmployees = (int)((ViewResultBase)employeeReportResult).ViewBag.TotalEmployees;
+            int totalOffices = db.Office_Master.Count();
+            int totalHolidays = db.Holiday_Master.Count();
+            ViewBag.TotalEmployees = totalEmployees;
+            ViewBag.TotalOffices = totalOffices;
+            ViewBag.TotalHolidays = totalHolidays;
+
+            return View();
+        }
+
+        public ActionResult EmployeeDashbord()
         {
             return View();
         }
@@ -346,6 +360,8 @@ namespace OnlineAttendece.Controllers
                     return OffiName;
                 }
             }
+            int totalEmployees = EmpMod.Count;
+            ViewBag.TotalEmployees = totalEmployees;
             return View(EmpMod);
         }
 
