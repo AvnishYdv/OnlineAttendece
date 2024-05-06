@@ -27,16 +27,57 @@ namespace OnlineAttendece.Controllers
             var employeeReportResult = EmployeeReport();
             int totalEmployees = (int)((ViewResultBase)employeeReportResult).ViewBag.TotalEmployees;
             int totalOffices = db.Office_Master.Count();
+            decimal totalSalaries = 0;
+            foreach (var employee in db.Employee_Master)
+            {
+                if (decimal.TryParse(employee.Salary, out decimal salary))
+                {
+                    totalSalaries += salary ;
+                }
+            }
             int totalHolidays = db.Holiday_Master.Count();
+            string formattedTotalSalaries = FormatSalary(totalSalaries);
+
             ViewBag.TotalEmployees = totalEmployees;
             ViewBag.TotalOffices = totalOffices;
             ViewBag.TotalHolidays = totalHolidays;
+            ViewBag.TotalSalaries = formattedTotalSalaries;
 
             return View();
         }
+        // Function to format the salary
+        public string FormatSalary(decimal salary)
+        {
+            if (salary >= 1000)
+            {
+                return (salary / 1000).ToString("0.##") + "k";
+            }
+            else
+            {
+                return salary.ToString();
+            }
+        }
+
 
         public ActionResult EmployeeDashbord()
         {
+            var employeeReportResult = EmployeeReport();
+            int totalEmployees = (int)((ViewResultBase)employeeReportResult).ViewBag.TotalEmployees;
+            int totalOffices = db.Office_Master.Count();
+            int totalHolidays = db.Holiday_Master.Count();
+            decimal totalSalaries = 0;
+            foreach (var employee in db.Employee_Master)
+            {
+                if (decimal.TryParse(employee.Salary, out decimal salary))
+                {
+                    totalSalaries += salary;
+                }
+            }
+            string formattedTotalSalaries = FormatSalary(totalSalaries);
+            ViewBag.TotalEmployees = totalEmployees;
+            ViewBag.TotalOffices = totalOffices;
+            ViewBag.TotalHolidays = totalHolidays;
+            ViewBag.TotalSalaries = formattedTotalSalaries;
             return View();
         }
 
@@ -55,7 +96,8 @@ namespace OnlineAttendece.Controllers
                     Designation = EMPLoop.Designation,
                     Department = EMPLoop.Department,
                     Office_Id = EMPLoop.Office_Id,
-                    Office_Name = officeName(EMPLoop.Office_Id)
+                    Office_Name = officeName(EMPLoop.Office_Id),
+                    Salary = EMPLoop.Salary,
                 });
                 string officeName(int? officeId)
                 {
@@ -74,7 +116,8 @@ namespace OnlineAttendece.Controllers
                 EMP_Name = employee.EMP_Name,
                 Designation = employee.Designation,
                 Department = employee.Department,
-                Office_Id = employee.Office_Id
+                Office_Id = employee.Office_Id,
+                Salary  = employee.Salary,
             };
             db.Employee_Master.Add(EMPvar);
             db.SaveChanges();
@@ -352,7 +395,8 @@ namespace OnlineAttendece.Controllers
                     Designation = EMPLoop.Designation,
                     Department = EMPLoop.Department,
                     Office_Id = EMPLoop.Office_Id,
-                    Office_Name = officeName(EMPLoop.Office_Id)
+                    Office_Name = officeName(EMPLoop.Office_Id),
+                    Salary = EMPLoop.Salary
                 });
                 string officeName(int? officeId)
                 {

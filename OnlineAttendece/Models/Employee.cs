@@ -13,5 +13,7 @@ namespace OnlineAttendece.Models
         public string Department { get; set; }
         public int? Office_Id { get; set; }
         public String Office_Name { get; set; } = String.Empty;
+        public string Salary { get; set; }
+
     }
 }

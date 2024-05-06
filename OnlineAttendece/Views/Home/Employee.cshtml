@@ -64,6 +64,10 @@
                                             <option>Select</option>
                                         </select>
                                     </div>
+                                    <div class="col-sm-6">
+                                        <label>Select Salary :</label>
+                                        <input asp-for="Salary" class="form-control" name="Salary" placeholder="Enter Salary " />
+                                    </div>
                                 </div>
                                 <div class="col-xl-12 col-sm-12 col-12 mt-4 ">
                                     <div class="row">
@@ -95,6 +99,7 @@
                                     <th>Designation</th>
                                     <th>Department</th>
                                     <th>Office Id</th>
+                                    <th>Salary</th>
                                     <th>Action</th>
                                 </tr>
 
@@ -106,6 +111,7 @@
                                         <td>@EMPList.Designation</td>
                                         <td>@EMPList.Department</td>
                                         <td>@EMPList.Office_Name</td>
+                                        <td>@EMPList.Salary</td>
                                         <td>
                                             <label>
                                                 <a class="action_label5" href="@Url.Action("Edit", "Home", new { id = EMPList.EMP_Id })">Edit<i data-feather="edit"></i></a>
