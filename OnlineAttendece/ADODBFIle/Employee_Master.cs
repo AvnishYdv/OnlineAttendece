@@ -19,5 +19,6 @@ namespace OnlineAttendece.ADODBFIle
         public string Designation { get; set; }
         public string Department { get; set; }
         public Nullable<int> Office_Id { get; set; }
+        public string Salary { get; set; }
     }
 }

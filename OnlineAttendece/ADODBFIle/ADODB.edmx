@@ -34,6 +34,7 @@
           <Property Name="Designation" Type="varchar" MaxLength="100" />
           <Property Name="Department" Type="varchar" MaxLength="100" />
           <Property Name="Office_Id" Type="int" />
+          <Property Name="Salary" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Holiday_Master">
           <Key>
@@ -102,16 +103,6 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Office_AttendanceModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Employee_Master">
-          <Key>
-            <PropertyRef Name="EMP_Id" />
-          </Key>
-          <Property Name="EMP_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="EMP_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Designation" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Department" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Office_Id" Type="Int32" />
-        </EntityType>
         <EntityType Name="Holiday_Master">
           <Key>
             <PropertyRef Name="Holiday_Id" />
@@ -130,7 +121,6 @@
           <Property Name="Cantact_Info" Type="Decimal" Precision="18" Scale="0" />
         </EntityType>
         <EntityContainer Name="Office_AttendanceEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Employee_Master" EntityType="Self.Employee_Master" />
           <EntitySet Name="Holiday_Master" EntityType="Self.Holiday_Master" />
           <EntitySet Name="Office_Master" EntityType="Self.Office_Master" />
           <EntitySet Name="Attendence_Master" EntityType="Office_AttendanceModel.Attendence_Master" />
@@ -141,6 +131,7 @@
           </AssociationSet>
           <EntitySet Name="Registrations" EntityType="Office_AttendanceModel.Registration" />
           <EntitySet Name="AdminLogins" EntityType="Office_AttendanceModel.AdminLogin" />
+          <EntitySet Name="Employee_Master" EntityType="Office_AttendanceModel.Employee_Master" />
         </EntityContainer>
         <EntityType Name="Attendence_Master">
           <Key>
@@ -197,23 +188,23 @@
           <Property Name="UserPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="LastLogin" Type="DateTime" Precision="3" />
         </EntityType>
+        <EntityType Name="Employee_Master">
+          <Key>
+            <PropertyRef Name="EMP_Id" />
+          </Key>
+          <Property Name="EMP_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EMP_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Designation" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Department" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Office_Id" Type="Int32" />
+          <Property Name="Salary" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="Office_AttendanceModelStoreContainer" CdmEntityContainer="Office_AttendanceEntities">
-          <EntitySetMapping Name="Employee_Master">
-            <EntityTypeMapping TypeName="Office_AttendanceModel.Employee_Master">
-              <MappingFragment StoreEntitySet="Employee_Master">
-                <ScalarProperty Name="EMP_Id" ColumnName="EMP_Id" />
-                <ScalarProperty Name="EMP_Name" ColumnName="EMP_Name" />
-                <ScalarProperty Name="Designation" ColumnName="Designation" />
-                <ScalarProperty Name="Department" ColumnName="Department" />
-                <ScalarProperty Name="Office_Id" ColumnName="Office_Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Holiday_Master">
             <EntityTypeMapping TypeName="Office_AttendanceModel.Holiday_Master">
               <MappingFragment StoreEntitySet="Holiday_Master">
@@ -275,6 +266,18 @@
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employee_Master">
+            <EntityTypeMapping TypeName="Office_AttendanceModel.Employee_Master">
+              <MappingFragment StoreEntitySet="Employee_Master">
+                <ScalarProperty Name="Salary" ColumnName="Salary" />
+                <ScalarProperty Name="Office_Id" ColumnName="Office_Id" />
+                <ScalarProperty Name="Department" ColumnName="Department" />
+                <ScalarProperty Name="Designation" ColumnName="Designation" />
+                <ScalarProperty Name="EMP_Name" ColumnName="EMP_Name" />
+                <ScalarProperty Name="EMP_Id" ColumnName="EMP_Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

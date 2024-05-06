@@ -40,6 +40,7 @@
                                     <th>Designation</th>
                                     <th>Department</th>
                                     <th>Office Id</th>
+                                    <th>Salary</th>
                                 </tr>
                                 @{int i = 1; }
                                 @foreach (var item in Model)
@@ -50,6 +51,7 @@
                                         <td>@Html.DisplayFor(modelItem => item.Designation)</td>
                                         <td>@Html.DisplayFor(modelItem => item.Department)</td>
                                         <td>@Html.DisplayFor(modelItem => item.Office_Name)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Salary)</td>
 
                                     </tr>
                                     i++;
