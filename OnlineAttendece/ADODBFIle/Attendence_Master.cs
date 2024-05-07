@@ -16,8 +16,8 @@ namespace OnlineAttendece.ADODBFIle
     {
         public int Attendence_Id { get; set; }
         public Nullable<System.DateTime> Attendence_Date { get; set; }
-        public Nullable<System.TimeSpan> Cheack_In_Time { get; set; }
-        public Nullable<System.TimeSpan> Cheack_Out_Time { get; set; }
+        public Nullable<System.DateTime> Cheack_In_Time { get; set; }
+        public Nullable<System.DateTime> Cheack_Out_Time { get; set; }
         public Nullable<int> EMP_Id { get; set; }
     }
 }

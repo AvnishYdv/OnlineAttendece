@@ -21,8 +21,8 @@
           </Key>
           <Property Name="Attendence_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Attendence_Date" Type="date" />
-          <Property Name="Cheack_In_Time" Type="time" Precision="7" />
-          <Property Name="Cheack_Out_Time" Type="time" Precision="7" />
+          <Property Name="Cheack_In_Time" Type="datetime" />
+          <Property Name="Cheack_Out_Time" Type="datetime" />
           <Property Name="EMP_Id" Type="int" />
         </EntityType>
         <EntityType Name="Employee_Master">
@@ -51,7 +51,7 @@
           <Property Name="Office_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Office_Name" Type="varchar" MaxLength="100" />
           <Property Name="Location" Type="varchar" MaxLength="100" />
-          <Property Name="Cantact_Info" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="Cantact_Info" Type="nchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="Registration">
           <Key>
@@ -111,19 +111,8 @@
           <Property Name="Holiday_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Holiday_Date" Type="DateTime" Precision="0" />
         </EntityType>
-        <EntityType Name="Office_Master">
-          <Key>
-            <PropertyRef Name="Office_Id" />
-          </Key>
-          <Property Name="Office_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Office_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Location" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Cantact_Info" Type="Decimal" Precision="18" Scale="0" />
-        </EntityType>
         <EntityContainer Name="Office_AttendanceEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Holiday_Master" EntityType="Self.Holiday_Master" />
-          <EntitySet Name="Office_Master" EntityType="Self.Office_Master" />
-          <EntitySet Name="Attendence_Master" EntityType="Office_AttendanceModel.Attendence_Master" />
           <EntitySet Name="Working_day_Master" EntityType="Office_AttendanceModel.Working_day_Master" />
           <AssociationSet Name="FK_Working_day_Master_Working_day_Master" Association="Office_AttendanceModel.FK_Working_day_Master_Working_day_Master">
             <End Role="Working_day_Master" EntitySet="Working_day_Master" />
@@ -132,17 +121,9 @@
           <EntitySet Name="Registrations" EntityType="Office_AttendanceModel.Registration" />
           <EntitySet Name="AdminLogins" EntityType="Office_AttendanceModel.AdminLogin" />
           <EntitySet Name="Employee_Master" EntityType="Office_AttendanceModel.Employee_Master" />
+          <EntitySet Name="Attendence_Master" EntityType="Office_AttendanceModel.Attendence_Master" />
+          <EntitySet Name="Office_Master" EntityType="Office_AttendanceModel.Office_Master" />
         </EntityContainer>
-        <EntityType Name="Attendence_Master">
-          <Key>
-            <PropertyRef Name="Attendence_Id" />
-          </Key>
-          <Property Name="Attendence_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Attendence_Date" Type="DateTime" Precision="0" />
-          <Property Name="Cheack_In_Time" Type="Time" Precision="7" />
-          <Property Name="Cheack_Out_Time" Type="Time" Precision="7" />
-          <Property Name="EMP_Id" Type="Int32" />
-        </EntityType>
         <EntityType Name="Working_day_Master">
           <Key>
             <PropertyRef Name="Working_Day_Id" />
@@ -199,6 +180,25 @@
           <Property Name="Office_Id" Type="Int32" />
           <Property Name="Salary" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="Attendence_Master">
+          <Key>
+            <PropertyRef Name="Attendence_Id" />
+          </Key>
+          <Property Name="Attendence_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Attendence_Date" Type="DateTime" Precision="0" />
+          <Property Name="Cheack_In_Time" Type="DateTime" Precision="3" />
+          <Property Name="Cheack_Out_Time" Type="DateTime" Precision="3" />
+          <Property Name="EMP_Id" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Office_Master">
+          <Key>
+            <PropertyRef Name="Office_Id" />
+          </Key>
+          <Property Name="Office_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Office_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Location" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Cantact_Info" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -211,27 +211,6 @@
                 <ScalarProperty Name="Holiday_Id" ColumnName="Holiday_Id" />
                 <ScalarProperty Name="Holiday_Name" ColumnName="Holiday_Name" />
                 <ScalarProperty Name="Holiday_Date" ColumnName="Holiday_Date" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Office_Master">
-            <EntityTypeMapping TypeName="Office_AttendanceModel.Office_Master">
-              <MappingFragment StoreEntitySet="Office_Master">
-                <ScalarProperty Name="Office_Id" ColumnName="Office_Id" />
-                <ScalarProperty Name="Office_Name" ColumnName="Office_Name" />
-                <ScalarProperty Name="Location" ColumnName="Location" />
-                <ScalarProperty Name="Cantact_Info" ColumnName="Cantact_Info" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Attendence_Master">
-            <EntityTypeMapping TypeName="Office_AttendanceModel.Attendence_Master">
-              <MappingFragment StoreEntitySet="Attendence_Master">
-                <ScalarProperty Name="EMP_Id" ColumnName="EMP_Id" />
-                <ScalarProperty Name="Cheack_Out_Time" ColumnName="Cheack_Out_Time" />
-                <ScalarProperty Name="Cheack_In_Time" ColumnName="Cheack_In_Time" />
-                <ScalarProperty Name="Attendence_Date" ColumnName="Attendence_Date" />
-                <ScalarProperty Name="Attendence_Id" ColumnName="Attendence_Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -278,6 +257,27 @@
                 <ScalarProperty Name="Designation" ColumnName="Designation" />
                 <ScalarProperty Name="EMP_Name" ColumnName="EMP_Name" />
                 <ScalarProperty Name="EMP_Id" ColumnName="EMP_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Attendence_Master">
+            <EntityTypeMapping TypeName="Office_AttendanceModel.Attendence_Master">
+              <MappingFragment StoreEntitySet="Attendence_Master">
+                <ScalarProperty Name="EMP_Id" ColumnName="EMP_Id" />
+                <ScalarProperty Name="Cheack_Out_Time" ColumnName="Cheack_Out_Time" />
+                <ScalarProperty Name="Cheack_In_Time" ColumnName="Cheack_In_Time" />
+                <ScalarProperty Name="Attendence_Date" ColumnName="Attendence_Date" />
+                <ScalarProperty Name="Attendence_Id" ColumnName="Attendence_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Office_Master">
+            <EntityTypeMapping TypeName="Office_AttendanceModel.Office_Master">
+              <MappingFragment StoreEntitySet="Office_Master">
+                <ScalarProperty Name="Cantact_Info" ColumnName="Cantact_Info" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Office_Name" ColumnName="Office_Name" />
+                <ScalarProperty Name="Office_Id" ColumnName="Office_Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -17,6 +17,6 @@ namespace OnlineAttendece.ADODBFIle
         public int Office_Id { get; set; }
         public string Office_Name { get; set; }
         public string Location { get; set; }
-        public Nullable<decimal> Cantact_Info { get; set; }
+        public string Cantact_Info { get; set; }
     }
 }

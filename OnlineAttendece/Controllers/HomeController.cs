@@ -13,6 +13,11 @@ using System.Data.Entity;
 using Xceed.Document.NET;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
+using iTextSharp.text.html.simpleparser;
+using Paragraph = iTextSharp.text.Paragraph;
+using System.Xml.Linq;
+using System.Reflection.Metadata;
+using OfficeOpenXml.Style;
 
 
 namespace OnlineAttendece.Controllers
@@ -45,7 +50,10 @@ namespace OnlineAttendece.Controllers
 
             return View();
         }
+
+
         // Function to format the salary
+
         public string FormatSalary(decimal salary)
         {
             if (salary >= 1000)
@@ -58,6 +66,8 @@ namespace OnlineAttendece.Controllers
             }
         }
 
+
+        // Emolpoyee Method
 
         public ActionResult EmployeeDashbord()
         {
@@ -163,6 +173,9 @@ namespace OnlineAttendece.Controllers
             }
         }
 
+        // Office Methods
+
+
         [HttpGet]
         public ActionResult Office()
         {
@@ -175,7 +188,7 @@ namespace OnlineAttendece.Controllers
                     Office_Id = OfficLoop.Office_Id,
                     Office_Name = OfficLoop.Office_Name,
                     Location = OfficLoop.Location,
-                    Cantact_Info = (int)OfficLoop.Cantact_Info
+                    Cantact_Info = OfficLoop.Cantact_Info
                 });
             }
             return View(OffiMod);
@@ -192,7 +205,7 @@ namespace OnlineAttendece.Controllers
                     Office_Id = OfficLoop.Office_Id,
                     Office_Name = OfficLoop.Office_Name,
                     Location = OfficLoop.Location,
-                    Cantact_Info = (int)OfficLoop.Cantact_Info
+                    Cantact_Info = OfficLoop.Cantact_Info
                 });
             }
             return Json(OffiMod, JsonRequestBehavior.AllowGet);
@@ -208,6 +221,8 @@ namespace OnlineAttendece.Controllers
             db.SaveChanges();
             return RedirectToAction("Office");
         }
+
+        // Attendence Methods
         public ActionResult Attendence()
         {
             List<Attendence> AttMod = new List<Attendence>();
@@ -277,6 +292,10 @@ namespace OnlineAttendece.Controllers
             return View("Attendence", attendence);
         }
 
+
+        // Holiday Methods 
+
+
         [HttpGet]
         public ActionResult Holiday()
         {
@@ -323,6 +342,9 @@ namespace OnlineAttendece.Controllers
             db.SaveChanges();
             return RedirectToAction("Holiday");
         }
+
+        // Working Day Methods 
+
 
         public ActionResult Workingday()
         {
@@ -379,6 +401,7 @@ namespace OnlineAttendece.Controllers
             }
         }
 
+
         // All Master Report  here
 
         public ActionResult EmployeeReport()
@@ -420,7 +443,7 @@ namespace OnlineAttendece.Controllers
                     Office_Id = OfficLoop.Office_Id,
                     Office_Name = OfficLoop.Office_Name,
                     Location = OfficLoop.Location,
-                    Cantact_Info = (int)OfficLoop.Cantact_Info
+                    Cantact_Info = OfficLoop.Cantact_Info
                 });
             }
             return View(OffiMod);
@@ -446,7 +469,7 @@ namespace OnlineAttendece.Controllers
             }
             string ename(int? empid)
             {
-                string name = emplist.Where(x => x.EMP_Id == empid).FirstOrDefault().EMP_Name;
+                string name = emplist.Where(x => x.EMP_Id == empid).FirstOrDefault()?.EMP_Name;
                 return name;
             }
             return View(AttMod);
@@ -507,7 +530,46 @@ namespace OnlineAttendece.Controllers
             return RedirectToAction("Index", "Account");
         }
 
-		public FileResult DownloadExcel()
+
+        // All Reports Excele File Download Mathods
+
+
+		public FileResult DownloadExcelHolidays()
+		{
+
+            List<Models.Holiday> Holi = new List<Models.Holiday>();
+            var hd = db.Holiday_Master.ToList();
+            foreach (var h in hd)
+            {
+                Holi.Add(new Holiday
+                {
+                    Holiday_Id = h.Holiday_Id,
+                    Holiday_Name = h.Holiday_Name,
+                    Holiday_Date = h.Holiday_Date.Value
+                });
+            }
+
+            using (var excelPackage = new ExcelPackage())
+			{
+				var worksheet = excelPackage.Workbook.Worksheets.Add("Working Day Report");
+
+				worksheet.Cells[1, 1].Value = "Holiday Id";
+				worksheet.Cells[1, 2].Value = "Holiday Name";
+				worksheet.Cells[1, 3].Value = "Holiday Date";
+
+				int row = 2;
+				foreach (var day in Holi)
+				{
+					worksheet.Cells[row, 1].Value = day.Holiday_Id;
+					worksheet.Cells[row, 2].Value = day.Holiday_Name;
+					worksheet.Cells[row, 3].Value = day.Holiday_Date.ToString(@"yyyy-MM-dd");
+					row++;
+				}
+				byte[] excelBytes = excelPackage.GetAsByteArray();
+				return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "HolidayReport.xlsx");
+			}
+		}
+		public FileResult DownloadExcelWorkingDay()
 		{
 			List<WorkingDay> workdays = new List<WorkingDay>();
 			var WorkVar = db.Working_day_Master.ToList();
@@ -522,18 +584,15 @@ namespace OnlineAttendece.Controllers
 				});
 			}
 
-			// Generate Excel file
 			using (var excelPackage = new ExcelPackage())
 			{
 				var worksheet = excelPackage.Workbook.Worksheets.Add("Working Day Report");
 
-				// Add headers
 				worksheet.Cells[1, 1].Value = "Working Day ID";
 				worksheet.Cells[1, 2].Value = "Day Of Week";
 				worksheet.Cells[1, 3].Value = "Start Time";
 				worksheet.Cells[1, 4].Value = "End Time";
 
-				// Add data
 				int row = 2;
 				foreach (var day in workdays)
 				{
@@ -543,15 +602,220 @@ namespace OnlineAttendece.Controllers
 					worksheet.Cells[row, 4].Value = day.End_Time?.ToString(@"hh\:mm");
 					row++;
 				}
-
-				// Convert to byte array
 				byte[] excelBytes = excelPackage.GetAsByteArray();
-
-				// Return Excel file
 				return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "WorkingDayReport.xlsx");
 			}
 		}
 
+        public FileResult DownloadExcelAttendence()
+        {
+            var AttList = db.Attendence_Master.ToList();
+            var emplist = db.Employee_Master.ToDictionary(x => x.EMP_Id, x => x.EMP_Name);
+
+            var excelData = AttList.Select(att => new
+            {
+                Attendence_Id = att.Attendence_Id,
+                Attendence_Date = att.Attendence_Date.Value.ToString("yyyy-MM-dd"), // Format date
+                Cheack_In_Time = att.Cheack_In_Time?.ToString(@"hh\:mm"),
+                Cheack_Out_Time = att.Cheack_Out_Time?.ToString(@"hh\:mm"),
+                EMP_Name = emplist.ContainsKey((int)att.EMP_Id) ? emplist[(int)att.EMP_Id] : "N/A"
+            }).ToList();
+
+            var memoryStream = new MemoryStream();
+            using (var package = new ExcelPackage(memoryStream))
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Attendance Report");
+
+                worksheet.Cells["A1"].Value = "Attendence Report";
+                worksheet.Cells["A1:E1"].Merge = true; // Merge cells for the heading
+                worksheet.Cells["A1:E1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center; // Center align the heading
+                worksheet.Cells["A1:E1"].Style.Font.Bold = true; // Bold the heading
+
+                worksheet.InsertRow(2, 1);
+
+                worksheet.Cells["A3"].LoadFromCollection(excelData, true);
+                package.Save();
+            }
+
+            memoryStream.Position = 0;
+            return File(memoryStream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "AttendanceReport.xlsx");
+        }
+        public FileResult DownloadExcelEmployee()
+        {
+            List<Employee> EmpMod = new List<Employee>();
+            var EMPList = db.Employee_Master.ToList();
+            var OfficeList = db.Office_Master.ToDictionary(x => x.Office_Id, x => x.Office_Name);
+
+            var excelData = EMPList.Select(emp => new
+            {
+                Emp_Id = emp.EMP_Id,
+                EMP_Name = emp.EMP_Name,
+                Designation = emp.Designation,
+                Department = emp.Department,
+                Office_Name = OfficeList.ContainsKey((int)emp.Office_Id) ? OfficeList[(int)emp.Office_Id] : "N/A",
+                Salary = emp.Salary
+            }).ToList();
+
+            var memoryStream = new MemoryStream();
+            using (var package = new ExcelPackage(memoryStream))
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Office Report");
+
+                worksheet.Cells["A1"].Value = "Office Report";
+                worksheet.Cells["A1:E1"].Merge = true; // Merge cells for the heading
+                worksheet.Cells["A1:E1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center; // Center align the heading
+                worksheet.Cells["A1:E1"].Style.Font.Bold = true; // Bold the heading
+
+                worksheet.InsertRow(2, 1);
+
+                worksheet.Cells["A3"].LoadFromCollection(excelData, true);
+                package.Save();
+            }
+
+            memoryStream.Position = 0;
+            return File(memoryStream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "officeReport.xlsx");
+        }
+
+
+        // All Reports PDF File Downloads Mathods 
+
+
+        [Obsolete]
+        public FileResult DownloadPDFAttendence()
+        {
+
+
+            List<Attendence> AttMod = new List<Attendence>();
+            var AttList = db.Attendence_Master.ToList();
+            var emplist = db.Employee_Master.ToList();
+            foreach (var Attpara in AttList)
+            {
+                AttMod.Add(new Attendence
+                {
+                    Attendence_Id = Attpara.Attendence_Id,
+                    Attendence_Date = Attpara.Attendence_Date.Value,
+                    Cheack_In_Time = Attpara.Cheack_In_Time.Value,
+                    Cheack_Out_Time = Attpara.Cheack_Out_Time.Value,
+                    EMP_Id = Attpara.EMP_Id,
+                    EMP_Name = ename(Attpara.EMP_Id)
+                });
+
+            }
+            string ename(int? empid)
+            {
+                string name = emplist.Where(x => x.EMP_Id == empid).FirstOrDefault()?.EMP_Name;
+                return name;
+            }
+
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                iTextSharp.text.Document document = new iTextSharp.text.Document();
+                PdfWriter writer = PdfWriter.GetInstance(document, memoryStream);
+                document.Open();
+                document.Add(new Paragraph(" "));
+
+                Paragraph heading = new Paragraph("Attendence Report");
+                heading.Alignment = Element.ALIGN_CENTER;
+                heading.SpacingAfter = 20f; // Add bottom margin
+                document.Add(heading);
+
+
+                PdfPTable table = new PdfPTable(5);
+                table.AddCell("Attendence ID");
+                table.AddCell("Attendamce Date");
+                table.AddCell("Cheack_In_Time");
+                table.AddCell("Cheack_Out_Time");
+                table.AddCell("EMP_Name");
+
+                foreach (var Att in AttMod)
+                {
+                    table.AddCell(Att.Attendence_Id.ToString());
+                    table.AddCell(Att.Attendence_Date?.ToString("yyyy-MM-dd"));
+                    table.AddCell(Att.Cheack_In_Time?.ToString(@"hh\:mm"));
+                    table.AddCell(Att.Cheack_Out_Time?.ToString(@"hh\:mm"));
+                    table.AddCell(Att.EMP_Name);
+                }
+
+                document.Add(table);
+                document.Close();
+
+                // Convert to byte array
+                byte[] pdfBytes = memoryStream.ToArray();
+
+                // Return PDF file
+                return File(pdfBytes, "application/pdf", "AttendeceReport.pdf");
+            }
+
+
+        }
+        public FileResult DownloadPDFEmployee()
+        {
+
+
+            List<Employee> EmpMod = new List<Employee>();
+            var EMPList = db.Employee_Master.ToList();
+            var OfficeList = db.Office_Master.ToList();
+
+            foreach (var Emppara in EMPList)
+            {
+                EmpMod.Add(new Employee
+                {
+                    EMP_Id = Emppara.EMP_Id,
+                    EMP_Name = Emppara.EMP_Name,
+                    Designation = Emppara.Designation,
+                    Department = Emppara.Department,
+                    Office_Id = Emppara.Office_Id,
+                    Office_Name = ename(Emppara.Office_Id),
+                });
+
+            }
+            string ename(int? empid)
+            {
+                string name = OfficeList.Where(x => x.Office_Id == empid).FirstOrDefault()?.Office_Name;
+                return name;
+            }
+
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                iTextSharp.text.Document document = new iTextSharp.text.Document();
+                PdfWriter writer = PdfWriter.GetInstance(document, memoryStream);
+                document.Open();
+                document.Add(new Paragraph(" "));
+
+                Paragraph heading = new Paragraph("Office Report");
+                heading.Alignment = Element.ALIGN_CENTER;
+                heading.SpacingAfter = 20f; // Add bottom margin
+                document.Add(heading);
+
+
+                PdfPTable table = new PdfPTable(5);
+                table.AddCell("EMP ID");
+                table.AddCell("EMP Name");
+                table.AddCell("Designation");
+                table.AddCell("Department");
+                table.AddCell("Office Name");
+
+                foreach (var Att in EmpMod)
+                {
+                    table.AddCell(Att.EMP_Id.ToString());
+                    table.AddCell(Att.EMP_Name);
+                    table.AddCell(Att.Designation);
+                    table.AddCell(Att.Department);
+                    table.AddCell(Att.Office_Name);
+                }
+
+                document.Add(table);
+                document.Close();
+
+                // Convert to byte array
+                byte[] pdfBytes = memoryStream.ToArray();
+
+                // Return PDF file
+                return File(pdfBytes, "application/pdf", "EmployeeReport.pdf");
+            }
+
+
+        }
         public ActionResult DownloadPDF()
         {
             List<WorkingDay> workdays = new List<WorkingDay>();
@@ -597,6 +861,50 @@ namespace OnlineAttendece.Controllers
 
                 // Return PDF file
                 return File(pdfBytes, "application/pdf", "WorkingDayReport.pdf");
+            }
+        }
+        public ActionResult DownloadPDFHoliday()
+        {
+
+            List<Models.Holiday> Holi = new List<Models.Holiday>();
+            var hd = db.Holiday_Master.ToList();
+            foreach (var h in hd)
+            {
+                Holi.Add(new Holiday
+                {
+                    Holiday_Id = h.Holiday_Id,
+                    Holiday_Name = h.Holiday_Name,
+                    Holiday_Date = h.Holiday_Date.Value
+                });
+            }
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                iTextSharp.text.Document document = new iTextSharp.text.Document();
+                PdfWriter writer = PdfWriter.GetInstance(document, memoryStream);
+                document.Open();
+
+                // Add headers
+                PdfPTable table = new PdfPTable(3);
+                table.AddCell("Holiday Id");
+                table.AddCell("Holiday Name");
+                table.AddCell("Holiday Date");
+
+                // Add data
+                foreach (var day in Holi)
+                {
+                    table.AddCell(day.Holiday_Id.ToString());
+                    table.AddCell(day.Holiday_Name);
+                    table.AddCell(day.Holiday_Date.ToString(@"yyyy-MM-dd"));
+                }
+
+                document.Add(table);
+                document.Close();
+
+                // Convert to byte array
+                byte[] pdfBytes = memoryStream.ToArray();
+
+                // Return PDF file
+                return File(pdfBytes, "application/pdf", "HolidayReport.pdf");
             }
         }
     }

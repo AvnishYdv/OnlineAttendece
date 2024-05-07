@@ -91,8 +91,8 @@
                             <table class="table">
                                 <thead>
                                     <tr class="text-center trAtt">
-                                        <th>Attendance ID</th>
-                                        <th>Attendance Date</th>
+                                        <th>ATD ID</th>
+                                        <th>ATD Date</th>
                                         <th> Check In Time</th>
                                         <th> Check Out Time</th>
                                         <th>EMP Id</th>
@@ -105,9 +105,9 @@
                                     {
                                         <tr class="text-center trbody">
                                             <td>@Attendance.Attendence_Id</td>
-                                            <td>@Attendance.Attendence_Date.ToString("yyyy-MM-dd")</td>
-                                            <td>@Attendance.Cheack_In_Time</td>
-                                            <td>@Attendance.Cheack_Out_Time</td>
+                                            <td>@String.Format("{0:yyyy-MM-dd}", Attendance.Attendence_Date)</td> <!-- Format the date -->
+                                            <td>@String.Format("{0:hh\\:mm\\:ss}", Attendance.Cheack_In_Time)</td> <!-- Format the time -->
+                                            <td>@String.Format("{0:hh\\:mm\\:ss}", Attendance.Cheack_Out_Time)</td> <!-- Format the time -->
                                             <td>@Attendance.EMP_Name</td>
                                             <td>
                                                 <label>
@@ -118,6 +118,7 @@
                                                 </label>
                                             </td>
                                         </tr>
+
                                     }
                                 </tbody>
                             </table>
