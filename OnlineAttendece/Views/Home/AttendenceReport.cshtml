@@ -14,6 +14,7 @@
         text-align: center;
     }
 </style>
+
 <div class="main-wrapper">
     <div class="page-wrapper">
         <div class="content container-fluid">
@@ -47,11 +48,12 @@
                                 {
                                     <tr class="trreport1">
                                         <td>@i</td>
-                                        <td>@Html.DisplayFor(modelItem => item.Attendence_Date)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.Cheack_In_Time)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.Cheack_Out_Time)</td>
+                                        <td>@(item.Attendence_Date.HasValue ? item.Attendence_Date.Value.ToString("yyyy-MM-dd") : "")</td>
+                                        <td>@(item.Cheack_In_Time.HasValue ? item.Cheack_In_Time.Value.ToString("hh:mm:ss") : "")</td>
+                                        <td>@(item.Cheack_Out_Time.HasValue ? item.Cheack_Out_Time.Value.ToString("hh:mm:ss") : "")</td>
                                         <td>@Html.DisplayFor(modelItem => item.EMP_Name)</td>
                                     </tr>
+
                                     i++;
                                 }
 
@@ -60,6 +62,27 @@
                     </div>
                 </div>
             </div>
+            <div class="row justify-content-center">
+                <div class="col-md-6 mt-4 text-center">
+                    <button class="btn btn-apply w-auto" onclick="downloadExcel()">Download Excel</button>
+                </div>
+                <div class="col-md-6 mt-4 text-center">
+                    <button class="btn btn-apply w-auto" onclick="downloadPDF()">Download PDF</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+<a id="downloadLink" href="@Url.Action("DownloadExcelAttendence", "Home")" style="display:none;">Download Excel</a>
+<a id="downloadPDFLink" href="@Url.Action("DownloadPDFAttendence", "Home")" style="display:none;">Download Excel</a>
+<script>
+    // Function to trigger download when button is clicked
+    function downloadExcel() {
+        // Simulate clicking on the download link
+        document.getElementById("downloadLink").click();
+    };
+    function downloadPDF() {
+        // Simulate clicking on the download link for PDF
+        document.getElementById("downloadPDFLink").click();
+    }
+</script>

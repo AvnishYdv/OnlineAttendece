@@ -10,6 +10,6 @@ namespace OnlineAttendece.Models
         public int Office_Id { get; set; }
         public string Office_Name { get; set; }
         public string Location { get; set; }
-        public int Cantact_Info { get; set; }
+        public string Cantact_Info { get; set; }
     }
 }
