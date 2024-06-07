@@ -39,7 +39,8 @@ License
 This project is licensed under the MIT License.
 Feel free to customize this template according to your project's specific details and requirements.
 
-• MIT License
+[MIT License](https://gh.io/mit)
+
 
 
 
