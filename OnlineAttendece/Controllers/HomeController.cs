@@ -22,7 +22,7 @@ using OfficeOpenXml.Style;
 
 namespace OnlineAttendece.Controllers
 {
-
+   
     public class HomeController : Controller
     {
         readonly Office_AttendanceEntities db = new Office_AttendanceEntities();
@@ -553,7 +553,14 @@ namespace OnlineAttendece.Controllers
 			{
 				var worksheet = excelPackage.Workbook.Worksheets.Add("Working Day Report");
 
-				worksheet.Cells[1, 1].Value = "Holiday Id";
+                worksheet.Cells["A1"].Value = "Holiday Report";
+                worksheet.Cells["A1:E1"].Merge = true; // Merge cells for the heading
+                worksheet.Cells["A1:E1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center; // Center align the heading
+                worksheet.Cells["A1:E1"].Style.Font.Bold = true; // Bold the heading
+
+                worksheet.InsertRow(2, 1);
+
+                worksheet.Cells[1, 1].Value = "Holiday Id";
 				worksheet.Cells[1, 2].Value = "Holiday Name";
 				worksheet.Cells[1, 3].Value = "Holiday Date";
 
@@ -588,7 +595,14 @@ namespace OnlineAttendece.Controllers
 			{
 				var worksheet = excelPackage.Workbook.Worksheets.Add("Working Day Report");
 
-				worksheet.Cells[1, 1].Value = "Working Day ID";
+                worksheet.Cells["A1"].Value = "Working Day Report";
+                worksheet.Cells["A1:E1"].Merge = true; // Merge cells for the heading
+                worksheet.Cells["A1:E1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center; // Center align the heading
+                worksheet.Cells["A1:E1"].Style.Font.Bold = true; // Bold the heading
+
+                worksheet.InsertRow(2, 1);
+
+                worksheet.Cells[1, 1].Value = "Working Day ID";
 				worksheet.Cells[1, 2].Value = "Day Of Week";
 				worksheet.Cells[1, 3].Value = "Start Time";
 				worksheet.Cells[1, 4].Value = "End Time";
@@ -606,7 +620,65 @@ namespace OnlineAttendece.Controllers
 				return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "WorkingDayReport.xlsx");
 			}
 		}
+		public FileResult DownloadExcelOffice()
+		{
+            List<Office> OffiMod = new List<Office>();
+            var OffiList = db.Office_Master.ToList();
+            foreach (var OfficLoop in OffiList)
+            {
+                OffiMod.Add(new Office
+                {
+                    Office_Id = OfficLoop.Office_Id,
+                    Office_Name = OfficLoop.Office_Name,
+                    Location = OfficLoop.Location,
+                    Cantact_Info = OfficLoop.Cantact_Info
+                });
+            }
 
+            using (var excelPackage = new ExcelPackage())
+			{
+				var worksheet = excelPackage.Workbook.Worksheets.Add("Office Report");
+
+                worksheet.Cells["A1"].Value = "Office Report";
+                worksheet.Cells["A1:E1"].Merge = true; // Merge cells for the heading
+                worksheet.Cells["A1:E1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center; // Center align the heading
+                worksheet.Cells["A1:E1"].Style.Font.Bold = true; // Bold the heading
+
+                worksheet.InsertRow(3, 1);
+
+                worksheet.Cells[1, 1].Value = "Office ID";
+				worksheet.Cells[1, 2].Value = "Office Name";
+				worksheet.Cells[1, 3].Value = "Location";
+				worksheet.Cells[1, 4].Value = "Contact Info";
+
+				int row = 2;
+				foreach (var day in OffiMod)
+				{
+					worksheet.Cells[row, 1].Value = day.Office_Id;
+					worksheet.Cells[row, 2].Value = day.Office_Name;
+					worksheet.Cells[row, 3].Value = day.Location;
+                    worksheet.Cells[row, 4].Value = day.Cantact_Info;
+					row++;
+				}
+				byte[] excelBytes = excelPackage.GetAsByteArray();
+				return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "OfficeReport.xlsx");
+			}
+		}
+        [HttpGet]
+        public ActionResult Calender()
+        {
+            var events = new List<CalendarEvent>
+            {
+                new CalendarEvent { Title = "Event 1", StartDate = new DateTime(2024, 06, 01) },
+                new CalendarEvent { Title = "Event 2", StartDate = new DateTime(2024, 06, 10) }
+            };
+
+            ViewBag.Events = events;
+
+            return View();
+        }
+
+        // All Reports PDF File Downloads Mathods 
         public FileResult DownloadExcelAttendence()
         {
             var AttList = db.Attendence_Master.ToList();
@@ -675,10 +747,6 @@ namespace OnlineAttendece.Controllers
             memoryStream.Position = 0;
             return File(memoryStream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "officeReport.xlsx");
         }
-
-
-        // All Reports PDF File Downloads Mathods 
-
 
         [Obsolete]
         public FileResult DownloadPDFAttendence()
@@ -782,7 +850,7 @@ namespace OnlineAttendece.Controllers
                 document.Open();
                 document.Add(new Paragraph(" "));
 
-                Paragraph heading = new Paragraph("Office Report");
+                Paragraph heading = new Paragraph("Employee Report");
                 heading.Alignment = Element.ALIGN_CENTER;
                 heading.SpacingAfter = 20f; // Add bottom margin
                 document.Add(heading);
@@ -836,6 +904,12 @@ namespace OnlineAttendece.Controllers
                 iTextSharp.text.Document document = new iTextSharp.text.Document();
                 PdfWriter writer = PdfWriter.GetInstance(document, memoryStream);
                 document.Open();
+                document.Add(new Paragraph(" "));
+
+                Paragraph heading = new Paragraph("Working Day Report");
+                heading.Alignment = Element.ALIGN_CENTER;
+                heading.SpacingAfter = 20f; // Add bottom margin
+                document.Add(heading);
 
                 // Add headers
                 PdfPTable table = new PdfPTable(4);
@@ -863,6 +937,60 @@ namespace OnlineAttendece.Controllers
                 return File(pdfBytes, "application/pdf", "WorkingDayReport.pdf");
             }
         }
+        public ActionResult DownloadPDFOffice()
+        {
+            List<Office> OffiMod = new List<Office>();
+            var OffiList = db.Office_Master.ToList();
+            foreach (var OfficLoop in OffiList)
+            {
+                OffiMod.Add(new Office
+                {
+                    Office_Id = OfficLoop.Office_Id,
+                    Office_Name = OfficLoop.Office_Name,
+                    Location = OfficLoop.Location,
+                    Cantact_Info = OfficLoop.Cantact_Info
+                });
+            }
+
+
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                iTextSharp.text.Document document = new iTextSharp.text.Document();
+                PdfWriter writer = PdfWriter.GetInstance(document, memoryStream);
+                document.Open();
+                document.Add(new Paragraph(" "));
+
+                Paragraph heading = new Paragraph("Office Report");
+                heading.Alignment = Element.ALIGN_CENTER;
+                heading.SpacingAfter = 20f; // Add bottom margin
+                document.Add(heading);
+
+                // Add headers
+                PdfPTable table = new PdfPTable(4);
+                table.AddCell("Office ID");
+                table.AddCell("Office Name");
+                table.AddCell("Location");
+                table.AddCell("Contact Info");
+
+                // Add data
+                foreach (var day in OffiMod)
+                {
+                    table.AddCell(day.Office_Id.ToString());
+                    table.AddCell(day.Office_Name);
+                    table.AddCell(day.Location);
+                    table.AddCell(day.Cantact_Info);
+                }
+
+                document.Add(table);
+                document.Close();
+
+                // Convert to byte array
+                byte[] pdfBytes = memoryStream.ToArray();
+
+                // Return PDF file
+                return File(pdfBytes, "application/pdf", "OfficeReport.pdf");
+            }
+        }
         public ActionResult DownloadPDFHoliday()
         {
 
@@ -882,6 +1010,12 @@ namespace OnlineAttendece.Controllers
                 iTextSharp.text.Document document = new iTextSharp.text.Document();
                 PdfWriter writer = PdfWriter.GetInstance(document, memoryStream);
                 document.Open();
+                document.Add(new Paragraph(" "));
+
+                Paragraph heading = new Paragraph("Holiday Report");
+                heading.Alignment = Element.ALIGN_CENTER;
+                heading.SpacingAfter = 20f; // Add bottom margin
+                document.Add(heading);
 
                 // Add headers
                 PdfPTable table = new PdfPTable(3);
@@ -907,5 +1041,10 @@ namespace OnlineAttendece.Controllers
                 return File(pdfBytes, "application/pdf", "HolidayReport.pdf");
             }
         }
+    }
+    public class CalendarEvent
+    {
+        public string Title { get; set; }
+        public DateTime StartDate { get; set; }
     }
 }

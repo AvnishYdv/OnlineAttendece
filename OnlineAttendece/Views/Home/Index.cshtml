@@ -1,8 +1,23 @@
-﻿
+﻿<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<style>
+    .material-icons {
+        width: 50px;
+        height: 50px;
+        background-color: #007bff; /* Blue color */
+        color: white;
+        text-align: center;
+        line-height: 50px;
+        font-size: 20px;
+        border-radius: 50%;
+    }
+    </style>
 
 <h2>Index</h2>
 
@@ -97,7 +112,7 @@
                 <div class="card flex-fill">
                     <div class="card-header">
                         <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="card-title">Total Employees</h5>
+                            <h5 class="card-title">Total Comapnies</h5>
                         </div>
                     </div>
                     <div class="card-body">
@@ -106,17 +121,17 @@
                             <div class="row">
                                 <div class="col-4">
                                     <div class="mt-4">
-                                        <p class="mb-2 text-truncate"><i class="fas fa-circle text-primary mr-1"></i> Business</p>
+                                        <p class="mb-2 text-truncate"><i class="fas fa-user text-primary mr-1"></i> Employes</p>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mt-4">
-                                        <p class="mb-2 text-truncate"><i class="fas fa-circle text-success mr-1"></i> Testing</p>
+                                        <p class="mb-2 text-truncate"><i class="fas fa-circle text-success mr-1"></i> Leaves</p>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mt-4">
-                                        <p class="mb-2 text-truncate"><i class="fas fa-circle text-danger mr-1"></i> Development</p>
+                                        <p class="mb-2 text-truncate"><i class="fas fa-circle text-danger mr-1"></i> Salaries</p>
                                     </div>
                                 </div>
                             </div>
@@ -140,78 +155,32 @@
         <div class="row">
             <div class="col-xl-6 col-sm-12 col-12 d-flex">
                 <div class="card card-list flex-fill">
-                    <div class="card-header ">
-                        <h4 class="card-title">Total Salary By Unit</h4>
+                    <div class="card-header">
+                        <h4 class="card-title">Total Employees By Company</h4>
                     </div>
-                    <div class="card-body">
-                        <div class="team-list">
-                            <div class="team-view">
-                                <div class="team-img">
-                                    <img src="~/Content/assets/img/profiles/avatar-03.jpg" alt="avatar" />
+                    <div class="card-body" id="employee-list">
+                        @foreach (var employee in Model)
+                        {
+                            <div class="team-list">
+                                <div class="team-view">
+                                    <div class="team-img">
+                                        <i class="material-icons">person</i> <!-- Material Icons for placeholder icon -->
+                                    </div>
+                                    <div class="team-content">
+                                        <label>@employee.EMP_Name</label>
+                                        <span>@employee.Office_Name</span>
+                                        <span>@employee.Department</span>
+
+                                    </div>
                                 </div>
-                                <div class="team-content">
-                                    <label>Maria Cotton</label>
-                                    <span>PHP</span>
-                                </div>
-                            </div>
-                            <div class="team-action">
-                                <ul>
-                                    <li><a><i data-feather="trash-2"></i></a></li>
-                                    <li><a><i data-feather="edit-2"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="team-list">
-                            <div class="team-view">
-                                <div class="team-img">
-                                    <img src="~/Content/assets/img/profiles/avatar-04.jpg" alt="avatar" />
-                                </div>
-                                <div class="team-content">
-                                    <label>Linda Craver</label>
-                                    <span>IOS</span>
+                                <div class="team-action">
+                                    <ul>
+                                        <li><a><i data-feather="trash-2"></i></a></li>
+                                        <li><a><i data-feather="edit-2"></i></a></li>
+                                    </ul>
                                 </div>
                             </div>
-                            <div class="team-action">
-                                <ul>
-                                    <li><a><i data-feather="trash-2"></i></a></li>
-                                    <li><a><i data-feather="edit-2"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="team-list">
-                            <div class="team-view">
-                                <div class="team-img">
-                                    <img src="~/Content/assets/img/profiles/avatar-06.jpg" alt="avatar" />
-                                </div>
-                                <div class="team-content">
-                                    <label>Jenni Sims</label>
-                                    <span>Android</span>
-                                </div>
-                            </div>
-                            <div class="team-action">
-                                <ul>
-                                    <li><a><i data-feather="trash-2"></i></a></li>
-                                    <li><a><i data-feather="edit-2"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="team-list">
-                            <div class="team-view">
-                                <div class="team-img">
-                                    <img src="~/Content/assets/img/profiles/avatar-11.jpg" alt="avatar" />
-                                </div>
-                                <div class="team-content">
-                                    <label>Danny</label>
-                                    <span>Design</span>
-                                </div>
-                            </div>
-                            <div class="team-action">
-                                <ul>
-                                    <li><a><i data-feather="trash-2"></i></a></li>
-                                    <li><a><i data-feather="edit-2"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -319,33 +288,9 @@
                     <div class="card-body p-0">
                         <div class="leave-set">
                             <span class="leave-inactive">
-                                <i class="fas fa-briefcase"></i>
+                                <i class="fas fa-briefcase"></i> <!-- Placeholder icon -->
                             </span>
-                            <label>Mon, 16 Dec 2021</label>
-                        </div>
-                        <div class="leave-set">
-                            <span class="leave-active">
-                                <i class="fas fa-briefcase"></i>
-                            </span>
-                            <label>Fri, 20 Dec 2021</label>
-                        </div>
-                        <div class="leave-set">
-                            <span class="leave-active">
-                                <i class="fas fa-briefcase"></i>
-                            </span>
-                            <label>Wed, 25 Dec 2021</label>
-                        </div>
-                        <div class="leave-set">
-                            <span class="leave-active">
-                                <i class="fas fa-briefcase"></i>
-                            </span>
-                            <label>Fri, 27 Dec 2021</label>
-                        </div>
-                        <div class="leave-set">
-                            <span class="leave-active">
-                                <i class="fas fa-briefcase"></i>
-                            </span>
-                            <label>Tue, 31 Dec 2021</label>
+                           
                         </div>
                         <div class="leave-viewall">
                             <a href="leave.html">View all <img src="~/Content/assets/img/right-arrow.png" class="ml-2" alt="arrow" /></a>

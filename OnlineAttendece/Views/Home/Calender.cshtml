@@ -1,0 +1,158 @@
+﻿@model IEnumerable<OnlineAttendece.Models.CalendarEvent>
+
+@{
+    ViewBag.Title = "Calendar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Calendar</h2>
+<div class="main-wrapper">
+    <div class="calendar-container">
+        <div class="calendar">
+            <div class="month">
+                <ul>
+                    <li class="prev" onclick="prevMonth()">&#10094;</li>
+                    <li class="next" onclick="nextMonth()">&#10095;</li>
+                    <li id="monthYear">
+                        <!-- Month and Year will be inserted here by JavaScript -->
+                    </li>
+                </ul>
+            </div>
+
+            <ul class="weekdays">
+                <li>Mo</li>
+                <li>Tu</li>
+                <li>We</li>
+                <li>Th</li>
+                <li>Fr</li>
+                <li>Sa</li>
+                <li>Su</li>
+            </ul>
+
+            <ul class="days" id="days">
+                <!-- Days will be inserted here by JavaScript -->
+            </ul>
+        </div>
+    </div>
+</div>
+
+<style>
+    .calendar-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: calc(100vh - 100px); /* Adjust based on your header/footer height */
+        padding: 20px;
+    }
+
+    .calendar {
+        width: 100%;
+        max-width: 800px;
+        padding: 20px;
+        border: 1px solid #ddd;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        background-color: #fff;
+    }
+
+    .month {
+        text-align: center;
+        margin: 20px 0;
+    }
+
+        .month ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+            .month ul li {
+                display: inline;
+                font-size: 20px;
+            }
+
+        .month .prev, .month .next {
+            cursor: pointer;
+            font-size: 20px;
+            padding: 10px;
+            background: #ddd;
+            margin: 0 5px;
+        }
+
+    .weekdays {
+        padding: 10px 0;
+        background: #ddd;
+        margin: 0;
+    }
+
+        .weekdays li {
+            display: inline-block;
+            width: 13.6%;
+            text-align: center;
+            font-size: 18px;
+            color: #666;
+        }
+
+    .days {
+        padding: 10px 0;
+        background: #eee;
+        margin: 0;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+        .days li {
+            display: inline-block;
+            width: 13.6%;
+            text-align: center;
+            margin-bottom: 5px;
+            font-size: 18px;
+            color: #777;
+        }
+
+            .days li .active {
+                padding: 5px;
+                background: #1abc9c;
+                color: white !important;
+            }
+</style>
+
+<script>
+    let currentMonth = new Date().getMonth();
+    let currentYear = new Date().getFullYear();
+
+    function loadCalendar(month, year) {
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const firstDay = new Date(year, month, 1).getDay();
+
+        const monthYear = document.getElementById('monthYear');
+        monthYear.innerHTML = monthNames[month] + "<br>" + year;
+
+        const days = document.getElementById('days');
+        days.innerHTML = '';
+
+        for (let i = 0; i < (firstDay + 6) % 7; i++) {
+            days.innerHTML += '<li></li>';
+        }
+
+        for (let i = 1; i <= daysInMonth; i++) {
+            days.innerHTML += `<li>${i}</li>`;
+        }
+    }
+
+    function nextMonth() {
+        currentYear = (currentMonth === 11) ? currentYear + 1 : currentYear;
+        currentMonth = (currentMonth + 1) % 12;
+        loadCalendar(currentMonth, currentYear);
+    }
+
+    function prevMonth() {
+        currentYear = (currentMonth === 0) ? currentYear - 1 : currentYear;
+        currentMonth = (currentMonth === 0) ? 11 : currentMonth - 1;
+        loadCalendar(currentMonth, currentYear);
+    }
+
+    window.onload = function () {
+        loadCalendar(currentMonth, currentYear);
+    };
+</script>
